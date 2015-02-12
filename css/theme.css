@@ -29,7 +29,7 @@
   padding: 0;
   min-width: 0;
   border-width: 0;
-  font-family: sans-serif;
+  font-family: "Helvetica", sans-serif;
   font-size: 12px;
   /* image-rendering: -moz-crisp-edges; */
   white-space: nowrap;
@@ -110,7 +110,7 @@ iframe {
   flex-shrink: 0;
   border-radius: 3px;
   line-height: 30px;
-  background-color: #EEEEEE;
+  background-color: rgba(0, 0, 0, 0.07);
 }
 
 .navbar.loading .locationbar {
@@ -141,9 +141,9 @@ iframe {
 
 .pagesummary {
   display: block;
-  text-overflow: ellipsis;
   flex-basis: content;
-  opacity: 0.8;
+  padding: 0 30px;
+  text-overflow: ellipsis;
   text-align: center;
 }
 
@@ -151,14 +151,22 @@ iframe {
 .urlinput {
   border-width: 0 1px 0 1px;
   border-style: solid;
-  border-color: transparent;
   line-height: 30px;
-  padding: 0 8px;
-  border-color: rgba(0,0,0,0.07);
+  border-color: rgba(0,0,0,0.05);
+}
+
+/* Dark theme case */
+.navbar.isdark .locationbar {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.navbar.isdark .pagesummary,
+.navbar.isdark .urlinput  {
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .urlinput {
   border-radius: 0;
+  padding: 0 8px;
 }
 
 .backbutton,
@@ -171,7 +179,6 @@ iframe {
   text-align: center;
   font-size: 17px;
   vertical-align: middle;
-  opacity: 0.5;
 }
 
 .backbutton::after,
@@ -208,12 +215,16 @@ iframe {
 }
 
 .pagetitle {
-  opacity: 0.5;
   padding: 5px;
+}
+
+.pageurlsummary {
+  font-weight: bold;
 }
 
 .navbar.ssl .pageurlsummary::before {
   font-family: FontAwesome;
+  font-weight: normal;
   content: "\f023";
   margin-right: 6px;
 }
@@ -231,27 +242,25 @@ iframe {
 }
 
 .windowctrl {
+  background: url('sprite-glyph.png') -100px 0 no-repeat;
+  background-size: 50px auto;
   width: 12px;
   height: 12px;
   margin-right: 8px;
   border-radius: 50%;
   border-style: solid;
-  border-width: var(--hwd-pixel);
 }
 
 .win-close-button {
   background-color: hsl(4, 100%, 67%);
-  border-color: hsla(4, 100%, 46%, 0.5);
 }
 
 .win-min-button {
   background-color: hsl(41, 99%, 63%);
-  border-color: hsla(41, 99%, 32%, 0.5);
 }
 
 .win-max-button {
   background-color: hsl(144, 100%, 40%);
-  border-color: hsla(144, 100%, 30%, 0.5);
 }
 
 main:not(.windowFocused) .windowctrls:not(:hover) .windowctrl {
@@ -305,7 +314,7 @@ main.ctrlpressed .tabstripkillzone,
 main.cmdpressed .tabstripkillzone,
 main.showtabstrip .tabstripkillzone {
   pointer-events: auto;
-  background-color: rgba(0,0,0,0.05);
+  background-color: rgba(0,0,0,0);
 }
 
 main.ctrlpressed iframes,
@@ -318,7 +327,7 @@ main.showtabstrip iframes {
   margin: 15px 0 0;
   height: 62.5px;
   width: 100px;
-  border: 1px solid #EEE;
+  border: 1px solid rgba(0, 0, 0, 0.07);
   border-radius: 4px;
   background-color: white;
   transform: scale(0.8);
