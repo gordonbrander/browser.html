@@ -110,7 +110,7 @@ iframe {
   flex-shrink: 0;
   border-radius: 3px;
   line-height: 30px;
-  background-color: rgba(0, 0, 0, 0.07);
+  background-color: rgba(0,0,0,0.07);
 }
 
 .navbar.loading .locationbar {
@@ -157,11 +157,11 @@ iframe {
 
 /* Dark theme case */
 .navbar.isdark .locationbar {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255,255,255,0.15);
 }
 .navbar.isdark .pagesummary,
 .navbar.isdark .urlinput  {
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0,0,0,0.1);
 }
 
 .urlinput {
@@ -242,8 +242,6 @@ iframe {
 }
 
 .windowctrl {
-  background: url('sprite-glyph.png') -100px 0 no-repeat;
-  background-size: 50px auto;
   width: 12px;
   height: 12px;
   margin-right: 8px;
@@ -327,7 +325,7 @@ main.showtabstrip iframes {
   margin: 15px 0 0;
   height: 62.5px;
   width: 100px;
-  border: 1px solid rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0,0,0,0.07);
   border-radius: 4px;
   background-color: white;
   transform: scale(0.8);
