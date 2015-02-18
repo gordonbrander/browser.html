@@ -109,6 +109,7 @@
 .navbar:not(.cangoback) .backbutton,
 .navbar:not(.canreload) .reloadbutton
 {
+  opacity: 0.2;
   pointer-events: none;
 }
 
