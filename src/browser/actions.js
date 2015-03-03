@@ -33,6 +33,48 @@ define((require, exports, module) => {
     webViewerCursor.merge({uri: readInputURL(location), isFocused: focus});
   }
 
+  // We'll hard-code dashboard items for now.
+  const dashboardItems = [
+    {image: '',
+     uri: 'https://facebook.com',
+     title: 'facebook.com'},
+    {image: '',
+     uri: 'https://youtube.com',
+     title: 'youtube.com'},
+    {image: '',
+     uri: 'https://amazon.com',
+     title: 'amazon.com'},
+    {image: '',
+     uri: 'https://wikipedia.org',
+     title: 'wikipedia.org'},
+
+    {image: '',
+     uri: 'https://twitter.com',
+     title: 'twitter.com'},
+    {image: '',
+     uri: 'https://mail.google.com',
+     title: 'mail.google.com'},
+    {image: '',
+     uri: 'https://nytimes.com',
+     title: 'nytimes.com'},
+    {image: '',
+     uri: 'https://qz.com',
+     title: 'qz.com'},
+
+    {image: '',
+     uri: 'https://github.com',
+     title: 'github.com'},
+    {image: '',
+     uri: 'https://dropbox.com',
+     title: 'dropbox.com'},
+    {image: '',
+     uri: 'https://linkedin.com',
+     title: 'linkedin.com'},
+    {image: '',
+     uri: 'https://yahoo.com',
+     title: 'yahoo.com'}
+  ];
+
   // Creates a blank session. Returns immutable map.
   const resetSession = () => fromJS({
     isDocumentFocused: document.hasFocus(),
@@ -42,6 +84,8 @@ define((require, exports, module) => {
     '',
     input: {value: '', isFocused: false},
     tabStrip: {isActive: false},
+    dashboard: {isActive: false,
+                items: dashboardItems},
     webViewers: [open({isSelected: true,
                        isActive: true,
                        isFocused: true,
@@ -62,6 +106,16 @@ define((require, exports, module) => {
     localStorage[`session@${version}`] = JSON.stringify(session.toJSON());
   };
 
+  const showDashboard = (dashboardCursor, tabStripCursor) => {
+    dashboardCursor.set('isActive', true);
+    tabStripCursor.set('isActive', true);
+  }
+
+  const hideDashboard = (dashboardCursor, tabStripCursor) => {
+    dashboardCursor.set('isActive', false);
+    tabStripCursor.set('isActive', false);
+  }
+
   // Exports:
 
   exports.makeSearchURL = makeSearchURL;
@@ -75,6 +129,8 @@ define((require, exports, module) => {
     tabStripCursor.set('isActive', false);
   exports.resetSelected = webViewersCursor =>
     webViewersCursor.update(items => select(items, active(items)));
+  exports.showDashboard = showDashboard;
+  exports.hideDashboard = hideDashboard;
   exports.resetSession = resetSession;
   exports.readSession = readSession;
   exports.writeSession = writeSession;

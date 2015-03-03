@@ -10,6 +10,7 @@ define((require, exports, module) => {
   const {Deck} = require('./deck');
   const {open} = require('./web-viewer/actions');
   const {isActive, isSelected} = require('./deck/actions');
+  const {LargeTile} = require('./dashboard.js');
   const {getHardcodedColors} = require('./theme');
   const {IFrame} = require('./iframe');
   const {DOM} = require('react');
@@ -18,7 +19,12 @@ define((require, exports, module) => {
   const WebViewer = Component('WebViewer', ({item: webViewerCursor, onOpen, onClose}) => {
 
     // Do not render anything unless viewer has any `uri`
-    if (!webViewerCursor.get('uri')) return null;
+    if (!webViewerCursor.get('uri')) {
+      return LargeTile.Deck({className: 'dashboard',
+                             hidden: !dashboardCursor.get('isActive'),
+                             items: dashboardTilesCursor});
+    }
+
     return IFrame({
       className: ClassSet({
         frame: true,
