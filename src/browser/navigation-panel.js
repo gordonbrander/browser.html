@@ -44,8 +44,8 @@ define((require, exports, module) => {
   const inputBindings = KeyBindings({'escape': focus});
 
 
-  const NavigationControls = Component('NavigationControls', ({inputCursor, tabStripCursor,
-                                         webViewerCursor, theme}) =>
+  const NavigationControls = Component('NavigationControls',
+    ({inputCursor, tabStripCursor, dashboardCursor, webViewerCursor, theme}) =>
     DOM.div({
       className: 'locationbar',
       onMouseEnter: event => showTabStrip(tabStripCursor)
@@ -74,7 +74,10 @@ define((require, exports, module) => {
       DOM.p({key: 'page-info',
              className: 'pagesummary',
              style: theme.pageInfoText,
-             onClick: event => inputCursor.set('isFocused', true)}, [
+             onClick: event => {
+              inputCursor.set('isFocused', true);
+              dashboardCursor.set('isActive', true);
+             }}, [
         DOM.span({key: 'location',
                   style: theme.locationText,
                   className: 'pageurlsummary'},
@@ -97,7 +100,8 @@ define((require, exports, module) => {
                onClick: event => webViewerCursor.set('readyState', 'stop')}),
     ]));
 
-  const NavigationPanel = Component('NavigationPanel', ({key, inputCursor, tabStripCursor, webViewerCursor, title, theme}) => {
+  const NavigationPanel = Component('NavigationPanel',
+    ({key, inputCursor, tabStripCursor, dashboardCursor, webViewerCursor, title, theme}) => {
     return DOM.div({
       key,
       style: theme.navigationPanel,
@@ -113,7 +117,7 @@ define((require, exports, module) => {
     }, [
       WindowControls({key: 'controls', theme}),
       NavigationControls({key: 'navigation', inputCursor, tabStripCursor,
-                          webViewerCursor, title, theme}),
+                          dashboardCursor, webViewerCursor, title, theme}),
       DOM.div({key: 'spacer', className: 'freeendspacer'})
     ])
   });

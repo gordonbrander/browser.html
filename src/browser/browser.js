@@ -121,8 +121,10 @@ define((require, exports, module) => {
     const webViewers = immutableState.get('webViewers');
     const webViewersCursor = immutableState.cursor('webViewers');
 
-    const dashboardIsActive = immutableState.getIn(['dashboard', 'isActive']);
-    const dashboardItemsCursor = immutableState.getIn(['dashboard', 'items']);
+    const dashboardCursor = immutableState.cursor('dashboard');
+    const dashboard = immutableState.get('dashboard');
+    const dashboardIsActive = dashboard.getIn('isActive');
+    const dashboardItemsCursor = dashboard.cursor('items');
 
     const selectIndex = indexOfSelected(webViewers);
     const activeIndex = indexOfActive(webViewers);
@@ -165,6 +167,7 @@ define((require, exports, module) => {
         tabStripCursor,
         theme,
         webViewerCursor: selectedWebViewerCursor,
+        dashboardCursor
       }),
       DOM.div({key: 'tabstrip',
                style: theme.tabstrip,
@@ -193,6 +196,7 @@ define((require, exports, module) => {
 
       WebViewer.Deck({key: 'web-viewers',
                       className: 'iframes',
+                      hidden: dashboardIsActive,
                       items: webViewersCursor,
                       onClose: item => webViewersCursor.update(closeTab(item)),
                       onOpen: item => webViewersCursor.update(addTab(item))
