@@ -47,7 +47,6 @@ define((require, exports, module) => {
     {image: '',
      uri: 'https://wikipedia.org',
      title: 'wikipedia.org'},
-
     {image: '',
      uri: 'https://twitter.com',
      title: 'twitter.com'},
@@ -60,7 +59,6 @@ define((require, exports, module) => {
     {image: '',
      uri: 'https://qz.com',
      title: 'qz.com'},
-
     {image: '',
      uri: 'https://github.com',
      title: 'github.com'},
