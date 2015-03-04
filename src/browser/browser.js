@@ -12,7 +12,7 @@ define((require, exports, module) => {
   const {NavigationPanel} = require('./navigation-panel');
   const {WebViewer} = require('./web-viewer');
   const {Tab} = require('./page-switch');
-  const {Dashboard} = require('./dashboard.js');
+  const {LargeTile} = require('./dashboard.js');
   const {Element, Event, VirtualAttribute, Attribute} = require('./element');
   const {KeyBindings} = require('./keyboard');
   const {zoomIn, zoomOut, zoomReset, open,
@@ -121,7 +121,8 @@ define((require, exports, module) => {
     const webViewers = immutableState.get('webViewers');
     const webViewersCursor = immutableState.cursor('webViewers');
 
-    const dashboardCursor = immutableState.cursor('dashboard');
+    const dashboardIsActive = immutableState.getIn(['dashboard', 'isActive']);
+    const dashboardItemsCursor = immutableState.getIn(['dashboard', 'items']);
 
     const selectIndex = indexOfSelected(webViewers);
     const activeIndex = indexOfActive(webViewers);
@@ -185,8 +186,10 @@ define((require, exports, module) => {
                }
               }),
 
-      Dashboard({key: 'dashboard',
-                 dashboardCursor}),
+      LargeTile.Deck({key: 'dashboard',
+                      className: 'dashboard',
+                      hidden: !dashboardIsActive,
+                      items: dashboardItemsCursor}),
 
       WebViewer.Deck({key: 'web-viewers',
                       className: 'iframes',

@@ -9,25 +9,22 @@ define((require, exports, module) => {
   const Component = require('omniscient');
   const {Deck} = require('./deck');
 
-  const readBackgroundImage = uri => ('none' && `url(uri)`);
+  const readBackground = uri => ('none' && `url(${uri})`);
 
-  const LargeTile = Component('LargeTile', ({title, uri, image}) =>
-    DOM.div({className: 'tile tile-large'}, [
-      DOM.div({className: 'tile-thumbnail',
-               style: {backgroundImage: readBackgroundImage(image)}}),
-      DOM.div({className: 'tile-title'}, null, title)
-    ]));
+  const LargeTile = Component('LargeTile', ({item}) => {
+    return DOM.div({key: item.get('uri'),
+             className: 'tile tile-large'}, [
+             DOM.div({key: 'tileThumbnail',
+                      className: 'tile-thumbnail',
+                      style: {backgroundImage: readBackground(item.get('image'))}}),
+             DOM.div({key: 'tileTitle',
+                      className: 'tile-title'}, null, item.get('title'))])
+  });
 
   LargeTile.Deck = Deck(LargeTile);
 
-  // Create a dashboard tile for each entry in dashboardTilesCursor
-  const Dashboard = Component('Dashboard', ({dashboardCursor}) =>
-    LargeTile.Deck({className: 'dashboard',
-                    hidden: !dashboardCursor.get('isActive'),
-                    items: dashboardCursor.get('items')}));
-
   // Exports:
 
-  exports.Dashboard = Dashboard;
+  exports.LargeTile = LargeTile;
 
 });
