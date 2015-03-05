@@ -15,7 +15,7 @@ define((require, exports, module) => {
   const {DOM} = require('react');
   const ClassSet = require('./util/class-set');
 
-  const WebViewer = Component('WebViewer', ({item: webViewerCursor, onOpen, onClose}) => {
+  const WebViewer = Component('WebViewer', ({item: webViewerCursor}, {onOpen, onClose}) => {
 
     // Do not render anything unless viewer has any `uri`
     if (!webViewerCursor.get('uri')) return null;
@@ -73,8 +73,6 @@ define((require, exports, module) => {
     isLoading: true,
     isConnecting: true,
     startLoadingTime: performance.now(),
-    progress: 0,
-    icons: null,
     icons: {},
     title: null,
     location: null,
@@ -94,7 +92,7 @@ define((require, exports, module) => {
     }
     return webViewerCursor.merge({
       isConnecting: false,
-      connectedAt: performance.now(),
+      endLoadingTime: performance.now(),
       readyState: 'loaded',
       isLoading: false
     });

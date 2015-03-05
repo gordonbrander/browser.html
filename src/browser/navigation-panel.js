@@ -50,7 +50,6 @@ define((require, exports, module) => {
       className: 'locationbar',
       onMouseEnter: event => showTabStrip(tabStripCursor)
     }, [
-      ProgressBar({key: 'progressbar', webViewerCursor, theme}),
       DOM.div({className: 'backbutton',
                style: theme.backButton,
                key: 'back',
@@ -101,7 +100,8 @@ define((require, exports, module) => {
     ]));
 
   const NavigationPanel = Component('NavigationPanel',
-    ({key, inputCursor, tabStripCursor, dashboardCursor, webViewerCursor, title, theme}) => {
+    ({key, inputCursor, tabStripCursor, dashboardCursor, webViewerCursor,
+      title, rfaCursor, theme}) => {
     return DOM.div({
       key,
       style: theme.navigationPanel,
@@ -118,6 +118,7 @@ define((require, exports, module) => {
       WindowControls({key: 'controls', theme}),
       NavigationControls({key: 'navigation', inputCursor, tabStripCursor,
                           dashboardCursor, webViewerCursor, title, theme}),
+      ProgressBar({key: 'progressbar', rfaCursor, webViewerCursor, theme}),
       DOM.div({key: 'spacer', className: 'freeendspacer'})
     ])
   });
