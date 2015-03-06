@@ -11,20 +11,19 @@ define((require, exports, module) => {
 
   const readBackground = uri => ('none' && `url(${uri})`);
 
-  const LargeTile = Component('LargeTile', ({item}) => {
-    return DOM.div({key: item.get('uri'),
+  const DashboardTile = Component('DashboardTile', ({item}) =>
+    DOM.div({key: item.get('uri'),
              className: 'tile tile-large'}, [
              DOM.div({key: 'tileThumbnail',
                       className: 'tile-thumbnail',
                       style: {backgroundImage: readBackground(item.get('image'))}}),
              DOM.div({key: 'tileTitle',
-                      className: 'tile-title'}, null, item.get('title'))])
-  });
+                      className: 'tile-title'}, null, item.get('title'))]));
 
-  LargeTile.Deck = Deck(LargeTile);
+  DashboardTile.Deck = Deck(DashboardTile);
 
   // Exports:
 
-  exports.LargeTile = LargeTile;
+  exports.DashboardTile = DashboardTile;
 
 });
