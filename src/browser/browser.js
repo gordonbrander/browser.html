@@ -12,12 +12,11 @@ define((require, exports, module) => {
   const {NavigationPanel} = require('./navigation-panel');
   const {WebViewer} = require('./web-viewer');
   const {Tab} = require('./page-switch');
-  const {LargeTile} = require('./dashboard.js');
   const {Element, Event, VirtualAttribute, Attribute} = require('./element');
   const {KeyBindings} = require('./keyboard');
   const {zoomIn, zoomOut, zoomReset, open,
          goBack, goForward, reload, stop, title} = require('./web-viewer/actions');
-  const {focus, showTabStrip, hideTabStrip,
+  const {focus, showTabStrip, hideTabStrip, showDashboard, hideDashboard,
          writeSession, resetSession, resetSelected} = require('./actions');
   const {indexOfSelected, indexOfActive, isActive,
          selectNext, selectPrevious, select, activate,
@@ -148,8 +147,8 @@ define((require, exports, module) => {
 
     const dashboardCursor = immutableState.cursor('dashboard');
     const dashboard = immutableState.get('dashboard');
-    const dashboardIsActive = dashboard.getIn('isActive');
-    const dashboardItemsCursor = dashboard.cursor('items');
+    const isDashboardActive = dashboard.get('isActive');
+    const dashboardItems = dashboard.get('items');
 
     const selectIndex = indexOfSelected(webViewers);
     const activeIndex = indexOfActive(webViewers);
@@ -162,7 +161,8 @@ define((require, exports, module) => {
 
     const rfaCursor = immutableState.cursor('rfa');
 
-    const isTabStripVisible = tabStripCursor.get('isActive');
+    const isTabStripVisible =
+      tabStripCursor.get('isActive') || isDashboardActive;
 
     const theme = readTheme(activeWebViewerCursor);
 
@@ -194,8 +194,7 @@ define((require, exports, module) => {
         tabStripCursor,
         theme,
         rfaCursor,
-        webViewerCursor: selectedWebViewerCursor,
-        dashboardCursor
+        webViewerCursor: selectedWebViewerCursor
       }),
       DOM.div({key: 'tabstrip',
                style: theme.tabstrip,
@@ -210,18 +209,18 @@ define((require, exports, module) => {
           onClose: item => webViewersCursor.update(closeTab(item))
         })
       ]),
-      DOM.div({key: 'tabstripkillzone',
-               className: 'tabstripkillzone',
-               onMouseEnter: event => {
-                 resetSelected(webViewersCursor);
-                 hideTabStrip(tabStripCursor);
-               }
-              }),
 
-      LargeTile.Deck({key: 'dashboard',
-                      className: 'dashboard',
-                      hidden: !dashboardIsActive,
-                      items: dashboardItemsCursor}),
+      DOM.div({
+        key: 'tabstripkillzone',
+        className: ClassSet({
+          tabstripkillzone: true,
+          'tabstripkillzone-active': isTabStripVisible && !isDashboardActive
+        }),
+        onMouseEnter: event => {
+          resetSelected(webViewersCursor);
+          hideTabStrip(tabStripCursor);
+        }
+      }),
 
       WebViewer.Deck({
         key: 'web-viewers',
@@ -229,7 +228,8 @@ define((require, exports, module) => {
         items: webViewersCursor
       }, {
         onClose: item => webViewersCursor.update(closeTab(item)),
-        onOpen: item => webViewersCursor.update(addTab(item))
+        onOpen: item => webViewersCursor.update(addTab(item)),
+        dashboardItems
       })
     ]);
   });
