@@ -22,8 +22,8 @@ define((require, exports, module) => {
              DOM.div({key: 'tileTitle',
                       className: 'tile-title'}, null, title)]));
 
-  const Dashboard = Component('Dashboard', ({items}, {onOpen}) =>
-    DOM.div({className: 'dashboard'}, items.map(item => DashboardTile({
+  const Dashboard = Component('Dashboard', ({items, hidden}, {onOpen}) =>
+    DOM.div({className: 'dashboard', hidden}, items.map(item => DashboardTile({
       key: item.get('uri'),
       uri: item.get('uri'),
       image: item.get('image'),
