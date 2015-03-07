@@ -60,17 +60,21 @@ define((require, exports, module) => {
     'meta': hideTabStrip
   });
 
-  const onViewerBinding = KeyBindings({
-    'accel =': zoomIn,
-    'accel -': zoomOut,
-    'accel 0': zoomReset,
-    'accel left': goBack,
-    'accel right': goForward,
-    'escape': stop,
-    'accel r': reload,
-    'F5': reload,
-  });
+  let onViewerBinding;
+  {
+    const modifier = os.platform() == 'linux' ? 'alt' : 'accel';
 
+    onViewerBinding = KeyBindings({
+      'accel =': zoomIn,
+      'accel -': zoomOut,
+      'accel 0': zoomReset,
+      [`${modifier} left`]: goBack,
+      [`${modifier} right`]: goForward,
+      'escape': stop,
+      'accel r': reload,
+      'F5': reload,
+    });
+  };
 
   const addTab = item => items => append(items, item);
 
@@ -163,7 +167,7 @@ define((require, exports, module) => {
     const isTabStripVisible =
       tabStripCursor.get('isActive') || isDashboardActive;
 
-    const theme = readTheme(activeWebViewerCursor);
+    const theme = Browser.readTheme(activeWebViewerCursor);
 
     return Main({
       windowTitle: title(selectedWebViewerCursor),
@@ -232,6 +236,9 @@ define((require, exports, module) => {
       })
     ]);
   });
+  // Create a version of readTheme that will return from cache
+  // on repeating calls with an equal cursor.
+  Browser.readTheme = Component.cached(readTheme);
 
   // Exports:
 
