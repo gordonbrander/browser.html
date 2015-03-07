@@ -57,7 +57,7 @@ define((require, exports, module) => {
      uri: 'https://nytimes.com',
      title: 'nytimes.com'},
     {image: '/tiles/qz.com.png',
-     uri: 'https://qz.com',
+     uri: 'http://qz.com',
      title: 'qz.com'},
     {image: '/tiles/github.com.png',
      uri: 'https://github.com',
