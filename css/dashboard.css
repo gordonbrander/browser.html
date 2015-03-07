@@ -21,7 +21,6 @@
   background-size: cover;
   border-radius: 12px;
   height: 100px;
-  position: relative;
   transition: transform 80ms ease-out;
   width: 160px;
 }
