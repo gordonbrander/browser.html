@@ -145,11 +145,6 @@ define((require, exports, module) => {
     const webViewers = immutableState.get('webViewers');
     const webViewersCursor = immutableState.cursor('webViewers');
 
-    const dashboardCursor = immutableState.cursor('dashboard');
-    const dashboard = immutableState.get('dashboard');
-    const isDashboardActive = dashboard.get('isActive');
-    const dashboardItems = dashboard.get('items');
-
     const selectIndex = indexOfSelected(webViewers);
     const activeIndex = indexOfActive(webViewers);
 
@@ -160,6 +155,10 @@ define((require, exports, module) => {
     const inputCursor = immutableState.cursor('input');
 
     const rfaCursor = immutableState.cursor('rfa');
+
+    const dashboard = immutableState.get('dashboard');
+    const dashboardItems = dashboard.get('items');
+    const isDashboardActive = activeWebViewerCursor.get('uri') === null;
 
     const isTabStripVisible =
       tabStripCursor.get('isActive') || isDashboardActive;
