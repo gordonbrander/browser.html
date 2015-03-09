@@ -205,7 +205,8 @@ define((require, exports, module) => {
         Tab.Deck({
           key: 'tabstrip',
           className: 'tabstrip',
-          items: webViewersCursor
+          items: webViewersCursor,
+          onMouseLeave: event => resetSelected(webViewersCursor),
         }, {
           onSelect: item => webViewersCursor.update(items => select(items, item)),
           onActivate: _ => webViewersCursor.update(items => activate(items)),
@@ -219,10 +220,7 @@ define((require, exports, module) => {
           tabstripkillzone: true,
           'tabstripkillzone-active': isTabStripVisible && !isDashboardActive
         }),
-        onMouseEnter: event => {
-          resetSelected(webViewersCursor);
-          hideTabStrip(tabStripCursor);
-        }
+        onMouseEnter: event => hideTabStrip(tabStripCursor)
       }),
 
       WebViewer.Deck({
