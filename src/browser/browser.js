@@ -16,7 +16,7 @@ define((require, exports, module) => {
   const {KeyBindings} = require('./keyboard');
   const {zoomIn, zoomOut, zoomReset, open,
          goBack, goForward, reload, stop, title} = require('./web-viewer/actions');
-  const {focus, showTabStrip, hideTabStrip, showDashboard, hideDashboard,
+  const {focus, showTabStrip, hideTabStrip,
          writeSession, resetSession, resetSelected} = require('./actions');
   const {indexOfSelected, indexOfActive, isActive,
          selectNext, selectPrevious, select, activate,

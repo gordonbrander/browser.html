@@ -113,10 +113,6 @@ define((require, exports, module) => {
     tabStripCursor.set('isActive', false);
   exports.resetSelected = webViewersCursor =>
     webViewersCursor.update(items => select(items, active(items)));
-  exports.showDashboard = (dashboardCursor) =>
-    dashboardCursor.set('isActive', true);
-  exports.hideDashboard = (dashboardCursor) => 
-    dashboardCursor.set('isActive', false);
   exports.resetSession = resetSession;
   exports.readSession = readSession;
   exports.writeSession = writeSession;
