@@ -218,7 +218,7 @@ define((require, exports, module) => {
         key: 'tabstripkillzone',
         className: ClassSet({
           tabstripkillzone: true,
-          'tabstripkillzone-active': isTabStripVisible && !isDashboardActive
+          'tabstripkillzone-hidden': !isTabStripVisible || isDashboardActive
         }),
         onMouseEnter: event => hideTabStrip(tabStripCursor)
       }),
