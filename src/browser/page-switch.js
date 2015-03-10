@@ -20,6 +20,7 @@ define((require, exports, moudle) => {
     DOM.div({
       className: ClassSet({
         tab: true,
+        'tab-unfilled': webViewerCursor.get('uri') === null,
         selected: isSelected(webViewerCursor)
       }),
       onMouseOver: event => onSelect(webViewerCursor),
