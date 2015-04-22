@@ -1,10 +1,12 @@
 .tabstripcontainer {
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
   justify-content: center;
-  width: 100vw;
-  height: 90px;
+  width: 460px;
+  left: 50%;
+  margin-left: -230px;
   position: absolute;
   top: 50px;
-  left: 0;
   z-index: 43;
   pointer-events: none;
   opacity: 0;
@@ -37,11 +39,17 @@
   will-change: transform;
 }
 
+.tabstrip {
+  flex-flow: row wrap;
+  padding: 20px 0;
+  width: 400px;
+}
+
 
 .tab {
   /* Keep buffer space around the visual thumbnail to make them easier
   to click. */
-  height: 90px;
+  height: 70px;
   width: 100px;
   position: relative;
 }
@@ -52,11 +60,9 @@
   background-clip: content-box;
   border: 1px solid rgba(0,0,0,0.07);
   border-radius: 8px;
-  height: 62px;
-  margin: 9px 0 0;
-  transform: scale(0.8);
-  transition: transform 150ms ease;
-  width: 100px;
+  height: 50px;
+  margin: 0 10px 20px;
+  width: 80px;
   overflow: hidden;
 }
 
@@ -80,8 +86,8 @@
   z-index: 2;
   height: 36px; /* big hitzone */
   width: 36px;
-  right: -18px; /* (hitzone / 2) */
-  top: -9px; /* 9px - (hitzone / 2) see thumbnail margin top */
+  right: -8px; /* (hitzone / 2) */
+  top: -18px; /* 9px - (hitzone / 2) see thumbnail margin top */
   opacity: 0;
   pointer-events: none;
 }
@@ -116,7 +122,7 @@
   content: "\f067";
   cursor: default;
   display: block;
-  font: 24px/62.5px FontAwesome;
+  font: 24px/50px FontAwesome;
   text-align: center;
   vertical-align: middle;
   width: 100%;

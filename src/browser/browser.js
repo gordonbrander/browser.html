@@ -24,7 +24,7 @@ define((require, exports, module) => {
          deactivate, writeSession, resetSession, resetSelected} = require('./actions');
   const {indexOfSelected, indexOfActive, isActive, active, selected,
          selectNext, selectPrevious, select, activate,
-         reorder, reset, remove, insertBefore,
+         reorder, reset, remove, insertAfter, insertBefore,
          isntPinned, isPinned} = require('./deck/actions');
   const {readTheme} = require('./theme');
   const {Main} = require('./main');
@@ -81,10 +81,10 @@ define((require, exports, module) => {
                                isSelected: true,
                                isFocused: true,
                                isActive: true}),
-                 isntPinned);
+                 isPinned);
 
   const openTabBg = uri => items =>
-    insertBefore(items, WebView.open({uri}), isntPinned);
+    insertBefore(items, WebView.open({uri}), isPinned);
 
   const clearActiveInput = viewers =>
     viewers.setIn([indexOfActive(viewers), 'userInput'], '');
@@ -144,8 +144,8 @@ define((require, exports, module) => {
   });
 
   const onDeckBindingRelease = KeyBindings({
-    'control': editWith(compose(reorder, activate)),
-    'meta': editWith(compose(reorder, activate))
+    'control': editWith(activate),
+    'meta': editWith(activate)
   });
 
   const onBrowserBinding = KeyBindings({
@@ -250,7 +250,7 @@ define((require, exports, module) => {
         items: webViews,
         style: theme.tabstrip
       }), {
-        onMouseLeave: event => editWebViews(compose(reorder, reset)),
+        onMouseLeave: event => editWebViews(reset),
         onSelect: id => editWebViews(items => select(items, item => item.get('id') == id)),
         onActivate: id => editWebViews(items => activate(items, item => item.get('id') == id)),
         onClose: id => editWebViews(closeTab(id)),
