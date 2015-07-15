@@ -282,7 +282,10 @@ define((require, exports, module) => {
     viewContainer(theme, ghostPreview, ...viewPreviews(loaders, pages, -1, address));
 
   const view = (mode, ...etc) =>
-    mode === 'create-web-view' ? viewInCreateMode(...etc) :
+    mode === 'create-web-view' ?
+      viewInCreateMode(...etc) :
+    mode === 'create-web-view-quick' ?
+      viewInCreateMode(...etc) :
     viewInEditMode(...etc);
   exports.view = view;
 

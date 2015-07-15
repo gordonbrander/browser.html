@@ -52,11 +52,20 @@ define((require, exports, module) => {
   const showWebView = switchMode('show-web-view');
   const showWebViewByID = compose(showWebView, selectViewByID);
 
+  const setupCreateWebView = compose(
+    focusInput,
+    state => state.setIn(['input', 'value'], null)
+  );
+
   const createWebView = compose(
     switchMode('create-web-view'),
-    focusInput,
-    state => state.mode === 'create-web-view' ? state :
-             state.setIn(['input', 'value'], null));
+    setupCreateWebView
+  );
+
+  const createWebViewQuick = compose(
+    switchMode('create-web-view-quick'),
+    setupCreateWebView
+  );
 
   const setInputToURIByID = (state, id) => {
     const index = WebView.indexByID(state.webViews, id);
@@ -67,12 +76,14 @@ define((require, exports, module) => {
   const editWebViewByID = compose(
     state => state.mode === 'edit-web-view' ? state :
              state.mode === 'create-web-view' ? state :
+             state.mode === 'create-web-view-quick' ? state :
              state.set('mode', 'edit-web-view'),
     selectInput,
     focusInput,
     (state, id) =>
       state.mode === 'edit-web-view' ? state :
       state.mode === 'create-web-view' ? state :
+      state.mode === 'create-web-view-quick' ? state :
       setInputToURIByID(state, id));
 
   const selectByOffset = offset => state =>
@@ -121,12 +132,20 @@ define((require, exports, module) => {
 
 
   const updateByWebViewAction = (state, id, action) =>
-    action instanceof Focusable.Focus ? showWebViewByID(state, id) :
-    action instanceof Focusable.Focused ? showWebViewByID(state, id) :
-    action instanceof WebView.Close ? closeWebViewByID(state, id) :
-    (action instanceof WebView.Open && !action.uri) ? createWebView(state) :
-    action instanceof WebView.SelectNext ? selectNext(state) :
-    action instanceof WebView.SelectPrevious ? selectPrevious(state) :
+    action instanceof Focusable.Focus ?
+      showWebViewByID(state, id) :
+    action instanceof Focusable.Focused ?
+      showWebViewByID(state, id) :
+    action instanceof WebView.Close ?
+      closeWebViewByID(state, id) :
+    (action instanceof WebView.Open && action.source === 'keyboard') ?
+      createWebViewQuick(state) :
+    (action instanceof WebView.Open && !action.uri) ?
+      createWebView(state) :
+    action instanceof WebView.SelectNext ?
+      selectNext(state) :
+    action instanceof WebView.SelectPrevious ?
+      selectPrevious(state) :
     state;
 
   const updateByInputAction = (state, action) =>

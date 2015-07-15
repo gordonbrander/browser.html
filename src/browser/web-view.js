@@ -79,7 +79,8 @@ define((require, exports, module) => {
   const Open = Record({
     uri: Maybe(String),
     name: '_blank',
-    features: ''
+    features: '',
+    source: Maybe(String)
   }, 'WebViews.Open');
   exports.Open = Open;
 
@@ -395,7 +396,13 @@ define((require, exports, module) => {
     active: {
       transition: 'opacity 150ms linear',
     },
-    inactive: {
+    dissolve: {
+      transition: 'transform 0ms linear 100ms, opacity 100ms linear',
+      transform: 'scale(0)',
+      opacity: 0,
+      pointerEvents: 'none',
+    },
+    shrink: {
       transition: 'transform 300ms linear, opacity 150ms linear',
       transform: 'scale(0)',
       opacity: 0,
@@ -405,10 +412,16 @@ define((require, exports, module) => {
 
   const view = (mode, loader, shell, page, address, selected) => {
     const isActive = mode === 'show-web-view';
+    const additionalStyles =
+      mode === 'show-web-view' ?
+        webviewsStyle.active :
+      mode === 'create-web-view-quick' ?
+        webviewsStyle.dissolve :
+      webviewsStyle.shrink;
+
     return html.div({
       key: 'web-views',
-      style: Style(webviewsStyle.base,
-                   isActive ? webviewsStyle.active : webviewsStyle.inactive),
+      style: Style(webviewsStyle.base, additionalStyles),
     }, loader.map((loader, index) =>
       render(`web-view@${loader.id}`, viewWebView,
              loader,
