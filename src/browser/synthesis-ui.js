@@ -50,6 +50,7 @@ define((require, exports, module) => {
     state.set('webViews', WebView.selectByID(state.webViews, id));
 
   const showWebView = switchMode('show-web-view');
+  const showWebViewQuick = switchMode('show-web-view-quick');
   const showWebViewByID = compose(showWebView, selectViewByID);
 
   const setupCreateWebView = compose(
@@ -115,7 +116,7 @@ define((require, exports, module) => {
     selectByOffset(-1));
 
   const closeWebViewByID = compose(
-    switchMode('edit-web-view'),
+    switchMode('edit-web-view-quick'),
     selectInput,
     focusInput,
     (state, id) =>
@@ -133,10 +134,11 @@ define((require, exports, module) => {
   };
 
   const submit = compose(
-    switchMode('show-web-view'),
+    showWebViewQuick,
     clearSuggestions,
     clearInput,
-    navigate);
+    navigate
+  );
 
   const showPreview = compose(
     state =>
@@ -175,15 +177,14 @@ define((require, exports, module) => {
     state;
 
   const completeSelection = state =>
-    state.mode === 'select-web-view' ? state.set('mode', 'show-web-view') :
-    state;
+    state.mode === 'select-web-view' ? showWebViewQuick(state) : state;
 
   const escape = state =>
     state.mode === 'show-web-view' ? state :
     showWebViewByID(state);
 
-  const update = (state, action) =>
-    action instanceof Navigation.Stop ?
+  const update = (state, action) => {
+    return action instanceof Navigation.Stop ?
       escape(state) :
     action instanceof WebView.Action ?
       updateByWebViewAction(state, action.id, action.source, action.action) :
@@ -204,6 +205,7 @@ define((require, exports, module) => {
     action instanceof Select ?
       completeSelection(state) :
     state;
+  }
 
   exports.update = update;
 });
