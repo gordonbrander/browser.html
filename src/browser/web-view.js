@@ -412,7 +412,6 @@ define((require, exports, module) => {
   });
 
   const view = (mode, loader, shell, page, address, selected) => {
-    const isActive = mode === 'show-web-view';
     const additionalStyles =
       mode === 'show-web-view' ?
         webviewsStyle.active :
