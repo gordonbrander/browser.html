@@ -393,18 +393,24 @@ define((require, exports, module) => {
       width: '100vw',
       height: 'calc(100vh - 28px)',
     },
-    active: {
-      transition: 'opacity 100ms linear',
-      opacity: 1
+    fadeIn: {
+      transition: 'transform 0ms linear 100ms, opacity 100ms linear',
+      transform: 'scale(1)',
+      opacity: 1,
     },
-    dissolve: {
+    fadeOut: {
       transition: 'transform 0ms linear 100ms, opacity 100ms linear',
       transform: 'scale(0)',
       opacity: 0,
       pointerEvents: 'none',
     },
+    grow: {
+      transition: 'transform 200ms linear, opacity 200ms linear',
+      transform: 'scale(1)',
+      opacity: 1,
+    },
     shrink: {
-      transition: 'transform 300ms linear, opacity 150ms linear',
+      transition: 'transform 200ms linear, opacity 150ms linear',
       transform: 'scale(0)',
       opacity: 0,
       pointerEvents: 'none',
@@ -412,13 +418,16 @@ define((require, exports, module) => {
   });
 
   const view = (mode, loader, shell, page, address, selected) => {
+    console.log(mode);
     const additionalStyles =
       mode === 'show-web-view' ?
-        webviewsStyle.active :
+        webviewsStyle.grow :
+      mode === 'show-web-view-quick' ?
+        webviewsStyle.fadeIn :
       mode === 'create-web-view-quick' ?
-        webviewsStyle.dissolve :
+        webviewsStyle.fadeOut :
       mode === 'edit-web-view-quick' ?
-        webviewsStyle.dissolve :
+        webviewsStyle.fadeOut :
       webviewsStyle.shrink;
 
     return html.div({
