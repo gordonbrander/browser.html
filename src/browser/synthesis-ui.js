@@ -131,14 +131,14 @@ define((require, exports, module) => {
       setInputToURIByID(state, '@selected'));
 
 
-  const updateByWebViewAction = (state, id, action) =>
+  const updateByWebViewAction = (state, id, source, action) =>
     action instanceof Focusable.Focus ?
       showWebViewByID(state, id) :
     action instanceof Focusable.Focused ?
       showWebViewByID(state, id) :
     action instanceof WebView.Close ?
       closeWebViewByID(state, id) :
-    (action instanceof WebView.Open && action.source === 'keyboard') ?
+    (action instanceof WebView.Open && source === 'keyboard') ?
       createWebViewQuick(state) :
     (action instanceof WebView.Open && !action.uri) ?
       createWebView(state) :
@@ -166,15 +166,15 @@ define((require, exports, module) => {
     action instanceof Navigation.Stop ?
       escape(state) :
     action instanceof WebView.Action ?
-      updateByWebViewAction(state, action.id, action.action) :
+      updateByWebViewAction(state, action.id, action.source, action.action) :
     action instanceof WebView.Open ?
-      updateByWebViewAction(state, null, action) :
+      updateByWebViewAction(state, null, null, action) :
     action instanceof WebView.Close ?
-      updateByWebViewAction(state, null, action) :
+      updateByWebViewAction(state, null, null, action) :
     action instanceof WebView.SelectNext ?
-      updateByWebViewAction(state, null, action) :
+      updateByWebViewAction(state, null, null, action) :
     action instanceof WebView.SelectPrevious ?
-      updateByWebViewAction(state, null, action) :
+      updateByWebViewAction(state, null, null, action) :
     action instanceof Input.Action ?
       updateByInputAction(state, action.action) :
     action instanceof Input.Submit ?

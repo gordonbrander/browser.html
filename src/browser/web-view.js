@@ -79,8 +79,7 @@ define((require, exports, module) => {
   const Open = Record({
     uri: Maybe(String),
     name: '_blank',
-    features: '',
-    source: Maybe(String)
+    features: ''
   }, 'WebViews.Open');
   exports.Open = Open;
 
@@ -163,7 +162,8 @@ define((require, exports, module) => {
   // selected web-view.
   const Action = Record({
     id: Maybe(String),
-    action: WebViewAction
+    source: Maybe(String),
+    action: WebViewAction,
   }, 'WebView.Action');
   exports.Action = Action;
 
@@ -394,7 +394,8 @@ define((require, exports, module) => {
       height: 'calc(100vh - 28px)',
     },
     active: {
-      transition: 'opacity 150ms linear',
+      transition: 'opacity 100ms linear',
+      opacity: 1
     },
     dissolve: {
       transition: 'transform 0ms linear 100ms, opacity 100ms linear',
@@ -416,6 +417,8 @@ define((require, exports, module) => {
       mode === 'show-web-view' ?
         webviewsStyle.active :
       mode === 'create-web-view-quick' ?
+        webviewsStyle.dissolve :
+      mode === 'edit-web-view-quick' ?
         webviewsStyle.dissolve :
       webviewsStyle.shrink;
 
