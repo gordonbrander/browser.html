@@ -73,17 +73,22 @@ define((require, exports, module) => {
                        state.getIn(['webViews', 'loader', index, 'uri']));
   };
 
+  // If the UI is in any of these modes, the card dashboard is being displayed.
+  const isDashboardMode = (mode) =>
+    mode === 'edit-web-view' ||
+    mode === 'edit-web-view-quick' ||
+    mode === 'create-web-view' ||
+    mode === 'create-web-view-quick';
+
+  // If state isn't already in a create or edit mode, set it to edit.
   const editWebViewByID = compose(
-    state => state.mode === 'edit-web-view' ? state :
-             state.mode === 'create-web-view' ? state :
-             state.mode === 'create-web-view-quick' ? state :
+    state => isDashboardMode(state.mode) ?
+             state :
              state.set('mode', 'edit-web-view'),
     selectInput,
     focusInput,
     (state, id) =>
-      state.mode === 'edit-web-view' ? state :
-      state.mode === 'create-web-view' ? state :
-      state.mode === 'create-web-view-quick' ? state :
+      isDashboardMode(state.mode) ? state :
       setInputToURIByID(state, id));
 
   const selectByOffset = offset => state =>
@@ -148,7 +153,7 @@ define((require, exports, module) => {
       selectPrevious(state) :
     state;
 
-  const updateByInputAction = (state, action) =>
+  const updateByInputAction = (state, source, action) =>
     action instanceof Input.Submit ? submit(state, action.value) :
     action instanceof Focusable.Focus ? editWebViewByID(state, null) :
     action instanceof Focusable.Focused ? editWebViewByID(state, null) :
@@ -176,9 +181,9 @@ define((require, exports, module) => {
     action instanceof WebView.SelectPrevious ?
       updateByWebViewAction(state, null, null, action) :
     action instanceof Input.Action ?
-      updateByInputAction(state, action.action) :
+      updateByInputAction(state, action.source, action.action) :
     action instanceof Input.Submit ?
-      updateByInputAction(state, action) :
+      updateByInputAction(state, null, action) :
     action instanceof Gesture.Pinch ?
       showPreview(state) :
     action instanceof Select ?
