@@ -80,16 +80,26 @@ define((require, exports, module) => {
     mode === 'create-web-view' ||
     mode === 'create-web-view-quick';
 
-  // If state isn't already in a create or edit mode, set it to edit.
-  const editWebViewByID = compose(
-    state => isDashboardMode(state.mode) ?
-             state :
-             state.set('mode', 'edit-web-view'),
+  // Given state and webview ID, set input value to URL of webview and focus
+  // the input. Returns state.
+  const editInputByID = compose(
     selectInput,
     focusInput,
     (state, id) =>
       isDashboardMode(state.mode) ? state :
       setInputToURIByID(state, id));
+
+  const editWebViewByID = compose(
+    state => !isDashboardMode(state.mode) ?
+      state.set('mode', 'edit-web-view') :
+      state,
+    editInputByID);
+
+  const editWebViewByIDQuick = compose(
+    state => !isDashboardMode(state.mode) ?
+      state.set('mode', 'edit-web-view-quick') :
+      state,
+    editInputByID);
 
   const selectByOffset = offset => state =>
     state.set('webViews', WebView.selectByOffset(state.webViews, offset));
@@ -154,9 +164,14 @@ define((require, exports, module) => {
     state;
 
   const updateByInputAction = (state, source, action) =>
-    action instanceof Input.Submit ? submit(state, action.value) :
-    action instanceof Focusable.Focus ? editWebViewByID(state, null) :
-    action instanceof Focusable.Focused ? editWebViewByID(state, null) :
+    action instanceof Input.Submit ?
+      submit(state, action.value) :
+    action instanceof Focusable.Focus && source === 'keyboard' ?
+      editWebViewByIDQuick(state, null) :
+    action instanceof Focusable.Focus ?
+      editWebViewByID(state, null) :
+    action instanceof Focusable.Focused ?
+      editWebViewByID(state, null) :
     state;
 
   const completeSelection = state =>

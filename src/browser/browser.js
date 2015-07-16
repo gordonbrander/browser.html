@@ -51,7 +51,10 @@ define((require, exports, module) => {
 
   const modifier = OS.platform() == 'linux' ? 'alt' : 'accel';
   const KeyDown = KeyBindings({
-    'accel l': _ => Input.Action({action: Focusable.Focus()}),
+    'accel l': _ => Input.Action({
+      action: Focusable.Focus(),
+      source: 'keyboard'
+    }),
     'accel t': _ => WebView.Action({
       action: WebView.Open(),
       source: 'keyboard'
