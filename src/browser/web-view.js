@@ -394,7 +394,7 @@ define((require, exports, module) => {
       height: 'calc(100vh - 28px)',
     },
     fadeIn: {
-      transition: 'transform 0ms linear 100ms, opacity 100ms linear',
+      transition: 'opacity 100ms linear',
       transform: 'scale(1)',
       opacity: 1,
     },
