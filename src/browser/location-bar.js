@@ -208,7 +208,7 @@ define((require, exports, module) => {
     const inputAddress = address.forward(InputAction);
 
     // If we have suggestions and the input isn't empty
-    const view = (input.value && input.isFocused) ?
+    const view = (input.isFocused && input.value !== '' && input.value) ?
       viewSuggestingBar : viewActiveBar;
 
     return view(inputAddress, [
