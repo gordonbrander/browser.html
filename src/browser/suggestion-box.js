@@ -213,10 +213,7 @@ define((require, exports, module) => {
   exports.viewSuggestion = viewSuggestion;
 
   const view = (mode, state, input, address) => {
-    const isActive = mode != 'show-web-view' &&
-                     input.isFocused &&
-                     input.value !== '' &&
-                     input.value;
+    const isActive = mode !== 'show-web-view' && input.isFocused && input.value;
 
     return html.div({
       key: 'suggestionscontainer',
