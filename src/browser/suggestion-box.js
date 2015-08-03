@@ -217,10 +217,8 @@ define((require, exports, module) => {
     input.isFocused && input.value && suggestions.entries.count() > 0;
   exports.isSuggesting = isSuggesting;
 
-  const view = (mode, state, input, address) => {
-    const isActive = mode !== 'show-web-view' && input.isFocused && input.value;
-
-    return html.div({
+  const view = (mode, state, input, address) =>
+    html.div({
       key: 'suggestionscontainer',
       style: Style(style.container,
                    !isSuggesting(input, state) && style.collapsed)
@@ -234,6 +232,5 @@ define((require, exports, module) => {
                       address);
       }))
     ]);
-  };
   exports.view = view;
 });
