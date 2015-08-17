@@ -79,6 +79,15 @@
       border: '3px dashed rgba(255, 255, 255, 0.2)',
       boxShadow: 'none'
     },
+    create: {
+      backgroundColor: 'rgba(255,255,255,0.1)',
+      boxShadow: 'none',
+      color: '#fff',
+      fontFamily: 'FontAwesome',
+      fontSize: 36,
+      lineHeight: '300px',
+      textAlign: 'center',
+    },
     selected: {
       boxShadow: '0 0 0 6px #4A90E2'
     },
@@ -223,6 +232,13 @@
   };
   exports.viewPreview = viewPreview;
 
+  const createPreviewIcon = '\uf067';
+
+  const createPreview = html.div({
+    className: 'card',
+    style: Style(stylePreview.card, stylePreview.create)
+  }, createPreviewIcon);
+
   const ghostPreview = html.div({
     className: 'card',
     style: Style(stylePreview.card, stylePreview.ghost)
@@ -274,7 +290,7 @@
     ]);
 
   const viewInEditMode = (loaders, pages, selected, theme, address) =>
-    viewContainer(theme, ghostPreview, ...viewPreviews(loaders, pages, selected, address));
+    viewContainer(theme, createPreview, ...viewPreviews(loaders, pages, selected, address));
 
   const viewInCreateMode = (loaders, pages, selected, theme, address) =>
     // Pass selected as `-1` so none is highlighted.
