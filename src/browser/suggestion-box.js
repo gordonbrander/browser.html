@@ -139,28 +139,23 @@
 
   const style = StyleSheet.create({
     container: {
-      textAlign: 'center',
+      backgroundColor: '#fff',
       width: '100vw',
       position: 'absolute',
-      top: 40,
+      top: 0,
       zIndex: 43,
-      height: 260,
+      height: '100vh',
+      left: 0,
       pointerEvents: 'none'
     },
     collapsed: {
       display: 'none'
     },
     suggestions: {
-      boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
       color: 'rgba(0,0,0,0.7)',
-      display: 'inline-block',
-      textAlign: 'left',
-      width: 400,
-      overflow: 'hidden',
-      pointerEvents: 'all',
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      padding: '30px 0 5px'
+      width: 460,
+      margin: '260px auto 0',
+      pointerEvents: 'all'
     },
     first: {
       borderTop: 0
