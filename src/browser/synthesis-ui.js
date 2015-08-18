@@ -131,12 +131,12 @@
     state => state.setIn(['input', 'value'], ''),
     clearSuggestions);
 
-
-  const fadeToSelectModefromShowMode = state =>
-    state.mode !== 'show-web-view' ? state :
-    fadeToSelectMode(state);
-
-  const showPreview = compose(fadeToSelectMode, blurInput);
+  const showPreview = compose(
+    fadeToSelectMode,
+    clearSuggestions,
+    clearInput,
+    blurInput
+  );
 
   const updateByWebViewIndex = (state, n, action) =>
     action instanceof Focusable.Focus ?
