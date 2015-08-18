@@ -43,7 +43,7 @@
     state.merge({mode, transition});
 
   const fadeToEditMode = switchMode('edit-web-view', 'fade');
-  const zoomToEditMode = switchMode('edit-web-view', 'zoom');
+  const zoomToCreateMode = switchMode('create-web-view', 'zoom');
   const fadeToSelectMode = switchMode('select-web-view', 'fade');
   const fadeToShowMode = switchMode('show-web-view', 'fade');
 
@@ -126,16 +126,10 @@
     clearInput,
     navigate);
 
-  const zoomToEditModeFromShowMode = state =>
-    state.mode !== 'show-web-view' ? state :
-    zoomToEditMode(state);
-
-  const zoomEditSelectedWebView = compose(
-    zoomToEditModeFromShowMode,
-    selectInput,
-    focusInput,
-    clearSuggestions,
-    setInputToURIBySelected);
+  const zoomToSelectedPreview = compose(
+    state => state.mode !== 'show-web-view' ? state : zoomToCreateMode(state),
+    state => state.setIn(['input', 'value'], ''),
+    clearSuggestions);
 
 
   const fadeToSelectModefromShowMode = state =>
@@ -200,7 +194,7 @@
       updateBySelectedWebView(state, action.action) :
 
     action instanceof Gesture.Pinch ?
-      zoomEditSelectedWebView(state) :
+      zoomToSelectedPreview(state) :
     action instanceof ShowSelected ?
       completeSelection(state) :
     action instanceof ShowPreview ?
