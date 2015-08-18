@@ -146,16 +146,17 @@
       zIndex: 43,
       height: '100vh',
       left: 0,
-      pointerEvents: 'none'
+      pointerEvents: 'all',
+      transition: '100ms opacity ease-out'
     },
     collapsed: {
-      display: 'none'
+      opacity: 0,
+      pointerEvents: 'none'
     },
     suggestions: {
       color: 'rgba(0,0,0,0.7)',
       width: 460,
       margin: '260px auto 0',
-      pointerEvents: 'all'
     },
     first: {
       borderTop: 0
