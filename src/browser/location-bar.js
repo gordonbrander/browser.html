@@ -55,7 +55,7 @@
       height: 30,
       lineHeight: '30px',
       padding: '0 30px',
-      width: 400,
+      width: 460,
       top: 40,
     },
     // Display styles when location bar is displaying suggested result.
@@ -65,7 +65,7 @@
       height: 30,
       lineHeight: '30px',
       padding: '0 30px',
-      width: 400,
+      width: 460,
       top: 40
     },
     button: {

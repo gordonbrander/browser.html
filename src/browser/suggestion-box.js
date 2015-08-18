@@ -162,7 +162,8 @@
       borderTop: 0
     },
     suggestion: {
-      lineHeight: '30px',
+      borderRadius: '4px',
+      lineHeight: '40px',
       paddingLeft: 10,
       paddingRight: 10,
       verticalAlign: 'middle',
