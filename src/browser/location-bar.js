@@ -60,8 +60,8 @@
     },
     // Display styles when location bar is displaying suggested result.
     suggesting: {
-      backgroundColor: 'white',
-      color: 'rgba(0,0,0,0.7)',
+      backgroundColor: 'rgba(0,0,0,0.07)',
+      color: 'rgba(0,0,0,0.65)',
       height: 30,
       lineHeight: '30px',
       padding: '0 30px',
