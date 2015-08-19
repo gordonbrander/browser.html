@@ -102,9 +102,10 @@
       setInputToURIBySelected(state));
 
   const closeWebViewByIndex = compose(
-    switchMode('edit-web-view', null),
-    selectInput,
+    switchMode('create-web-view', null),
     focusInput,
+    clearInput,
+    clearSuggestions,
     setInputToURIBySelected,
     (state, n) =>
       state.set('webViews', WebView.closeByIndex(state.webViews, n)));
