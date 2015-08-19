@@ -293,6 +293,6 @@
     viewContainer(isInputFocused, viewGhost(isInputFocused), ...viewPreviews(loaders, pages, -1, address));
 
   const view = (mode, ...etc) =>
-    mode === 'create-web-view' ? viewInCreateMode(...etc) :
-    viewInEditMode(...etc);
+    mode === 'select-web-view' ? viewInEditMode(...etc) :
+    viewInCreateMode(...etc);
   exports.view = view;

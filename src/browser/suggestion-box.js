@@ -254,15 +254,15 @@
   exports.viewSuggestion = viewSuggestion;
 
   // Check if input is in "suggestions" mode.
-  const isSuggesting = (input, suggestions) =>
-    input.isFocused && input.value && suggestions.entries.count() > 0;
+  const isSuggesting = (mode, input, suggestions) =>
+    mode === 'edit-web-view' || (input.isFocused && input.value);
   exports.isSuggesting = isSuggesting;
 
   const view = (mode, state, input, address) =>
     html.menu({
       key: 'suggestionscontainer',
       style: Style(style.container,
-                   !isSuggesting(input, state) && style.collapsed)
+                   !isSuggesting(mode, input, state) && style.collapsed)
     }, [
       html.ul({
         key: 'suggestions',
