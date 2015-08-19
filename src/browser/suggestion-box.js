@@ -255,7 +255,8 @@
 
   // Check if input is in "suggestions" mode.
   const isSuggesting = (mode, input, suggestions) =>
-    mode === 'edit-web-view' || (input.isFocused && input.value);
+    (mode === 'edit-web-view' ||
+      (mode === 'create-web-view' && input.isFocused && input.value));
   exports.isSuggesting = isSuggesting;
 
   const view = (mode, state, input, address) =>

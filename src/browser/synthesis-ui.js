@@ -44,6 +44,7 @@
 
   const fadeToEditMode = switchMode('edit-web-view', 'fade');
   const zoomToCreateMode = switchMode('create-web-view', 'zoom');
+  const fadeToCreateMode = switchMode('create-web-view', 'fade');
   const fadeToSelectMode = switchMode('select-web-view', 'fade');
   const fadeToShowMode = switchMode('show-web-view', 'fade');
 
@@ -65,16 +66,15 @@
     selectViewByIndex
   );
 
-  const createWebView = compose(
+  const createWebViewFade = compose(
+    fadeToCreateMode,
     focusInput,
-    (state, transition) =>
-      state.mode === 'create-web-view' ?
-      state :
-      state.mergeDeep({
-        mode: 'create-web-view',
-        input: {value: null},
-        transition
-      }));
+    clearInput);
+
+  const createWebViewZoom = compose(
+    zoomToCreateMode,
+    focusInput,
+    clearInput);
 
   const setInputToURIBySelected = state =>
     state.setIn(['input', 'value'],
@@ -97,7 +97,6 @@
     focusInput,
     clearSuggestions,
     state =>
-      state.mode === 'edit-web-view' ? state :
       state.mode === 'create-web-view' ? state :
       setInputToURIBySelected(state));
 
@@ -185,9 +184,9 @@
     action instanceof Input.Submit ?
       updateByInputAction(state, action) :
     action instanceof Preview.Create ?
-      createWebView(state, 'zoom') :
+      createWebViewZoom(state) :
     action instanceof OpenNew ?
-      createWebView(state, 'fade') :
+      createWebViewFade(state) :
 
     action instanceof WebView.ByID ?
       updateByWebViewID(state, action.id, action.action) :
