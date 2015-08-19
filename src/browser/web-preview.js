@@ -79,10 +79,12 @@
       border: '3px dashed rgba(255, 255, 255, 0.2)',
       boxShadow: 'none',
       opacity: 0,
-      transition: 'opacity 100ms linear, transform 80ms linear'
+      transform: 'scale(.5)',
+      transition: 'opacity 100ms linear, transform 100ms linear'
     },
     appear: {
-      opacity: 1
+      opacity: 1,
+      transform: 'scale(1)'
     },
     selected: {
       boxShadow: '0 0 0 6px #4A90E2'
@@ -254,9 +256,10 @@
       // Margin doesn't play well with scroll -- the right-hand edge will get
       // cut off, so we turn on the traditional CSS box model and use padding.
       boxSizing: 'content-box',
-      width: '100vw',
       // Fixed height to contain floats.
       height: '300px',
+      transform: 'translateX(-130px)',
+      transition: 'transform 200ms cubic-bezier(0.215, 0.610, 0.355, 1.000)',
       padding: 'calc(50vh - 150px) 200px 0 200px',
       margin: '0 auto',
     }
@@ -272,21 +275,22 @@
                address.forward(action =>
                                 WebView.ByID({id: loader.id, action}))));
 
-  const viewContainer = (theme, ...children) =>
+  const viewContainer = (isInputFocused, ...children) =>
     // Set the width of the previews element to match the width of each card
     // plus padding.
     html.div({key: 'preview-container', style: style.scroller}, [
-      html.div({style: Style(style.previews, {
-        width: children.length * 260
-      })}, children)
-    ]);
+      html.div({
+        style: Style(style.previews,
+                     {width: children.length * 260},
+                     isInputFocused && {transform: 'translateX(0)'})},
+        children)]);
 
-  const viewInEditMode = (loaders, pages, isInputFocused, selected, theme, address) =>
-    viewContainer(theme, ...viewPreviews(loaders, pages, selected, address));
+  const viewInEditMode = (loaders, pages, isInputFocused, selected, address) =>
+    viewContainer(isInputFocused, ...viewPreviews(loaders, pages, selected, address));
 
-  const viewInCreateMode = (loaders, pages, isInputFocused, selected, theme, address) =>
+  const viewInCreateMode = (loaders, pages, isInputFocused, selected, address) =>
     // Pass selected as `-1` so none is highlighted.
-    viewContainer(theme, viewGhost(isInputFocused), ...viewPreviews(loaders, pages, -1, address));
+    viewContainer(isInputFocused, viewGhost(isInputFocused), ...viewPreviews(loaders, pages, -1, address));
 
   const view = (mode, ...etc) =>
     mode === 'create-web-view' ? viewInCreateMode(...etc) :
