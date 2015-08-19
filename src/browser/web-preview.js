@@ -79,13 +79,13 @@
       border: '3px dashed rgba(255, 255, 255, 0.2)',
       boxShadow: 'none',
       opacity: 0,
-      transition: 'opacity 100ms linear, transform 80ms linear'
+      transition: 'opacity 100ms linear'
     },
     appear: {
       opacity: 1
     },
     selected: {
-      boxShadow: '0 0 0 6px #4A90E2'
+      transform: 'scale(1.05)'
     },
     header: {
       height: '24px',
