@@ -78,11 +78,13 @@
       backgroundColor: 'transparent',
       border: '3px dashed rgba(255, 255, 255, 0.2)',
       boxShadow: 'none',
-      opacity: 0,
+      opacity: 1,
+      transform: 'scale(1)',
       transition: 'opacity 100ms linear, transform 80ms linear'
     },
-    appear: {
-      opacity: 1
+    disappear: {
+      opacity: 0,
+      transform: 'scale(0.9)',
     },
     selected: {
       transform: 'scale(1.05)'
@@ -233,7 +235,7 @@
       className: 'card',
       style: Style(stylePreview.card,
                    stylePreview.ghost,
-                   isVisible && stylePreview.appear)
+                   !isVisible && stylePreview.disappear)
     });
 
   const style = StyleSheet.create({
