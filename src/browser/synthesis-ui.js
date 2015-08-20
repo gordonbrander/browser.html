@@ -95,13 +95,12 @@
     fadeToEdit,
     selectInput,
     focusInput,
-    clearSuggestions,
     state =>
       state.mode === 'create-web-view' ? state :
       setInputToURIBySelected(state));
 
   const closeWebViewByIndex = compose(
-    switchMode('create-web-view', null),
+    fadeToCreateMode,
     focusInput,
     clearInput,
     clearSuggestions,
