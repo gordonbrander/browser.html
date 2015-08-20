@@ -152,8 +152,8 @@
     },
     suggestions: {
       color: 'rgba(0,0,0,0.7)',
-      width: 460,
-      margin: '260px auto 0',
+      margin: '90px auto 0',
+      width: 460
     },
     first: {
       borderTop: 0
