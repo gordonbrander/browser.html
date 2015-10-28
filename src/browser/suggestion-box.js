@@ -186,26 +186,27 @@
 
   const style = StyleSheet.create({
     container: {
+      backgroundColor: '#fff',
+      boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
       textAlign: 'center',
       width: '100vw',
       position: 'absolute',
-      top: '40px',
+      top: 0,
       zIndex: 43,
-      height: '260px',
+      minHeight: '260px',
+      padding: '40px 0',
       pointerEvents: 'none'
     },
     collapsed: {
       display: 'none'
     },
     suggestions: {
-      boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
       color: 'rgba(0,0,0,0.7)',
       display: 'inline-block',
       textAlign: 'left',
       width: '400px',
       overflow: 'hidden',
       pointerEvents: 'all',
-      backgroundColor: '#fff',
       borderRadius: '5px',
       padding: '30px 0 5px'
     },
@@ -213,6 +214,7 @@
       borderTop: 0
     },
     suggestion: {
+      borderRadius: '3px',
       lineHeight: '30px',
       paddingLeft: '10px',
       paddingRight: '10px',
