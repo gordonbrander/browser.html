@@ -343,7 +343,7 @@ const viewResult = (model, index, selected, address) =>
   // model.type === 'Search.Match' ?
     viewSearch(model, index, selected, address);
 
-export const view/*:type.view*/ = (model, address) =>
+export const view/*:type.view*/ = (model, mode, address) =>
   html.div({
     className: 'assistant'
   }, [

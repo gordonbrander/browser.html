@@ -3,6 +3,7 @@
 import {version} from "../../package.json";
 import {Effects, html, forward, thunk} from "reflex";
 
+import * as PerspectiveUI from "./perspective-ui";
 import * as Shell from "./shell";
 import * as Input from "./input";
 import * as Assistant from "./assistant";
@@ -32,6 +33,7 @@ export const initialize/*:type.initialize*/ = () => {
 
   const model = {
     version,
+    mode: PerspectiveUI.initial,
     shell: Shell.initial,
     input: Input.initial,
     suggestions: Assistant.initial,
@@ -161,18 +163,22 @@ export const view/*:type.view*/ = (model, address) =>
     thunk('web-views',
           WebViews.view,
           model.webViews,
+          model.mode,
           forward(address, asFor("webViews"))),
     thunk('sidebar',
           Sidebar.view,
           model.webViews,
+          model.mode,
           forward(address, asFor("webViews"))),
     thunk('input',
           Input.view,
           model.input,
+          model.mode,
           forward(address, asFor("input"))),
     thunk('suggestions',
           Assistant.view,
           model.suggestions,
+          model.mode,
           address),
     thunk('controls',
       WindowControls.view,

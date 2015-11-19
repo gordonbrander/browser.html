@@ -94,7 +94,7 @@ const viewTab = (model, address) =>
     }, [readTitle(model)])
   ]);
 
-export const view = ({entries}, address) =>
+export const view = ({entries}, mode, address) =>
   html.div({
     className: 'sidebar',
     style: style.sidebar,

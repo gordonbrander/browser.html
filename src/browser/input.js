@@ -118,7 +118,7 @@ const style = StyleSheet.create({
   }
 });
 
-export const view = (model, address) =>
+export const view = (model, mode, address) =>
   html.div({
     className: 'input-combobox',
     style: Style(style.combobox)
