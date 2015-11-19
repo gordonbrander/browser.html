@@ -2,6 +2,7 @@
 
 import {html, forward, Effects} from 'reflex';
 import {on, focus, selection} from 'driver';
+import * as PerspectiveUI from './perspective-ui';
 import {identity} from '../lang/functional';
 import {always} from '../common/prelude';
 import * as Focusable from '../common/focusable';
@@ -84,6 +85,7 @@ const style = StyleSheet.create({
     top: '40px',
     width: (inputWidth - (32 * 2)) + 'px',
   },
+
   field: {
     background: 'transparent',
     borderWidth: 0,
@@ -118,14 +120,20 @@ const style = StyleSheet.create({
   }
 });
 
+const isInputActive = (mode) =>
+  mode === PerspectiveUI.CreateWebView || mode === PerspectiveUI.EditWebView;
+
 export const view = (model, mode, address) =>
   html.div({
     className: 'input-combobox',
-    style: Style(style.combobox)
+    style: Style(
+      style.combobox,
+      !isInputActive(mode) && style.inactive
+    )
   }, [
     html.span({
       className: 'input-search-icon',
-      style: Style(style.searchIcon)
+      style: style.searchIcon
     }, ['']),
     html.span({
       className: 'input-clear-icon',
@@ -137,7 +145,7 @@ export const view = (model, mode, address) =>
     html.input({
       className: 'input-field',
       placeholder: 'Search or enter address',
-      style: Style(style.field),
+      style: style.field,
       type: 'text',
       value: model.value,
       isFocused: focus(model.isFocused),
