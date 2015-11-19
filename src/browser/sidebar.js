@@ -95,13 +95,10 @@ const viewTab = (model, address) =>
     }, [readTitle(model)])
   ]);
 
-export const view = ({entries}, mode, address) =>
+const ViewMode = (modeStyle) => ({entries}, address) =>
   html.div({
     className: 'sidebar',
-    style: Style(
-      style.sidebar,
-      mode !== PerspectiveUI.ShowTabs && style.sidebarHidden
-    )
+    style: modeStyle
   }, [
     html.div({
       className: 'sidebar-tabs-scrollbox',
@@ -111,3 +108,13 @@ export const view = ({entries}, mode, address) =>
       className: 'sidebar-toolbar'
     })
   ]);
+
+const viewAsActive = ViewMode(style.sidebar);
+const viewAsInactive = ViewMode(Style(style.sidebar, style.sidebarHidden));
+
+// Export modal views
+export const viewAsEditWebView = viewAsInactive;
+export const viewAsCreateWebView = viewAsInactive;
+export const viewAsShowWebView = viewAsInactive;
+export const viewAsSelectWebView = viewAsInactive;
+export const viewAsShowTabs = viewAsActive;
