@@ -5,6 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import {html, thunk} from 'reflex';
+import * as PerspectiveUI from './perspective-ui';
 import {Style, StyleSheet} from '../common/style';
 import {readTitle} from './web-view';
 
@@ -97,7 +98,10 @@ const viewTab = (model, address) =>
 export const view = ({entries}, mode, address) =>
   html.div({
     className: 'sidebar',
-    style: style.sidebar,
+    style: Style(
+      style.sidebar,
+      mode !== PerspectiveUI.ShowTabs && style.sidebarHidden
+    )
   }, [
     html.div({
       className: 'sidebar-tabs-scrollbox',
