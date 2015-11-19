@@ -123,13 +123,10 @@ const style = StyleSheet.create({
 const isInputActive = (mode) =>
   mode === PerspectiveUI.CreateWebView || mode === PerspectiveUI.EditWebView;
 
-export const view = (model, mode, address) =>
+const ViewMode = (modeStyle) => (model, address) =>
   html.div({
     className: 'input-combobox',
-    style: Style(
-      style.combobox,
-      !isInputActive(mode) && style.inactive
-    )
+    style: modeStyle
   }, [
     html.span({
       className: 'input-search-icon',
@@ -157,3 +154,13 @@ export const view = (model, mode, address) =>
       onKeyDown: on(address, binding),
     })
   ]);
+
+const viewAsActive = ViewMode(style.combobox);
+const viewAsInactive = ViewMode(Style(style.combobox, style.inactive));
+
+// Export modal views
+export const viewAsEditWebView = viewAsActive;
+export const viewAsCreateWebView = viewAsActive;
+export const viewAsShowWebView = viewAsInactive;
+export const viewAsSelectWebView = viewAsInactive;
+export const viewAsShowTabs = viewAsInactive;

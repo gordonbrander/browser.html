@@ -268,7 +268,7 @@ const style = StyleSheet.create({
   }
 });
 
-export const view/*:type.view*/ = (model, mode, address) =>
+export const view/*:type.view*/ = (model, address) =>
   html.div({
     className: 'webviews-stack',
     style: Style(style.webviews)
