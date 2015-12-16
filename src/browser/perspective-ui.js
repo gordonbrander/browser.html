@@ -478,8 +478,63 @@ const style = StyleSheet.create({
     // @WORKAROUND use percent instead of vw/vh to work around
     // https://github.com/servo/servo/issues/8754
     height: '100%'
+  },
+
+  iconShowTabs: {
+    MozWindowDragging: 'no-drag',
+    backgroundImage: 'url(css/hamburger.sprite.png)',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '0 0',
+    backgroundSize: '50px auto',
+    position: 'absolute',
+    height: '13px',
+    right: '8px',
+    top: '7px',
+    width: '14px'
+  },
+
+  iconShowTabsDark: {
+    backgroundPosition: '0 -50px'
+  },
+
+  iconCreateTab: {
+    MozWindowDragging: 'no-drag',
+    color: 'rgba(0,0,0,0.8)',
+    fontFamily: 'FontAwesome',
+    fontSize: '18px',
+    lineHeight: '32px',
+    position: 'absolute',
+    textAlign: 'center',
+    bottom: 0,
+    right: 0,
+    width: '30px',
+    height: '32px',
+  },
+
+  iconCreateTabDark: {
+    color: 'rgba(255,255,255,0.8)',
   }
 });
+
+const renderCreateTabButton = (isDark) =>
+  html.div({
+    className: 'global-create-tab-icon',
+    style: Style(
+      style.iconCreateTab,
+      isDark && style.iconCreateTabDark
+    ),
+    // onClick: () => address(Create)
+  }, ['']);
+
+const renderShowTabsButton = (isDark) =>
+  html.div({
+    className: 'global-show-tabs-icon',
+    style: Style(
+      style.iconShowTabs,
+      isDark && style.iconShowTabsDark
+    ),
+    // onClick: () => address(RequestShowTabs)
+  });
 
 export const view = (model, address) =>
   model.mode === 'edit-web-view' ?
@@ -526,7 +581,13 @@ const viewAsEditWebView = (model, address) =>
           Sidebar.view,
           model.sidebar,
           model.browser.webViews,
-          forward(address, SidebarAction))
+          forward(address, SidebarAction)),
+    thunk('create-tab-button',
+          renderCreateTabButton,
+          false),
+    thunk('show-tabs-button',
+          renderShowTabsButton,
+          false)
   ]);
 
 const viewAsShowWebView = (model, address) =>
@@ -563,7 +624,13 @@ const viewAsShowWebView = (model, address) =>
           Sidebar.view,
           model.sidebar,
           model.browser.webViews,
-          forward(address, SidebarAction))
+          forward(address, SidebarAction)),
+    thunk('create-tab-button',
+          renderCreateTabButton,
+          false),
+    thunk('show-tabs-button',
+          renderShowTabsButton,
+          false)
   ]);
 
 const viewAsCreateWebView = (model, address) =>
@@ -601,7 +668,13 @@ const viewAsCreateWebView = (model, address) =>
           Sidebar.view,
           model.sidebar,
           model.browser.webViews,
-          forward(address, SidebarAction))
+          forward(address, SidebarAction)),
+    thunk('create-tab-button',
+          renderCreateTabButton,
+          false),
+    thunk('show-tabs-button',
+          renderShowTabsButton,
+          false)
   ]);
 
 const viewAsSelectWebView = (model, address) =>
@@ -639,7 +712,13 @@ const viewAsSelectWebView = (model, address) =>
           Sidebar.view,
           model.sidebar,
           model.browser.webViews,
-          forward(address, SidebarAction))
+          forward(address, SidebarAction)),
+    thunk('create-tab-button',
+          renderCreateTabButton,
+          false),
+    thunk('show-tabs-button',
+          renderShowTabsButton,
+          false)
   ]);
 
 const viewAsShowTabs = (model, address) =>
@@ -677,5 +756,11 @@ const viewAsShowTabs = (model, address) =>
           Sidebar.view,
           model.sidebar,
           model.browser.webViews,
-          forward(address, SidebarAction))
+          forward(address, SidebarAction)),
+    thunk('create-tab-button',
+          renderCreateTabButton,
+          false),
+    thunk('show-tabs-button',
+          renderShowTabsButton,
+          false)
   ]);
