@@ -584,10 +584,10 @@ const viewAsEditWebView = (model, address) =>
           forward(address, SidebarAction)),
     thunk('create-tab-button',
           renderCreateTabButton,
-          false),
+          model.sidebar.isAttached),
     thunk('show-tabs-button',
           renderShowTabsButton,
-          false)
+          model.sidebar.isAttached)
   ]);
 
 const viewAsShowWebView = (model, address) =>
@@ -627,10 +627,10 @@ const viewAsShowWebView = (model, address) =>
           forward(address, SidebarAction)),
     thunk('create-tab-button',
           renderCreateTabButton,
-          false),
+          model.sidebar.isAttached),
     thunk('show-tabs-button',
           renderShowTabsButton,
-          false)
+          model.sidebar.isAttached)
   ]);
 
 const viewAsCreateWebView = (model, address) =>
@@ -671,10 +671,10 @@ const viewAsCreateWebView = (model, address) =>
           forward(address, SidebarAction)),
     thunk('create-tab-button',
           renderCreateTabButton,
-          false),
+          model.sidebar.isAttached),
     thunk('show-tabs-button',
           renderShowTabsButton,
-          false)
+          model.sidebar.isAttached)
   ]);
 
 const viewAsSelectWebView = (model, address) =>
@@ -715,10 +715,10 @@ const viewAsSelectWebView = (model, address) =>
           forward(address, SidebarAction)),
     thunk('create-tab-button',
           renderCreateTabButton,
-          false),
+          model.sidebar.isAttached),
     thunk('show-tabs-button',
           renderShowTabsButton,
-          false)
+          model.sidebar.isAttached)
   ]);
 
 const viewAsShowTabs = (model, address) =>
@@ -759,8 +759,8 @@ const viewAsShowTabs = (model, address) =>
           forward(address, SidebarAction)),
     thunk('create-tab-button',
           renderCreateTabButton,
-          false),
+          model.sidebar.isAttached),
     thunk('show-tabs-button',
           renderShowTabsButton,
-          false)
+          model.sidebar.isAttached)
   ]);
