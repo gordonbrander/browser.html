@@ -488,7 +488,7 @@ const style = StyleSheet.create({
     backgroundSize: '50px auto',
     position: 'absolute',
     height: '13px',
-    right: '8px',
+    right: '18px',
     top: '7px',
     width: '14px'
   },
@@ -502,13 +502,14 @@ const style = StyleSheet.create({
     color: 'rgba(0,0,0,0.8)',
     fontFamily: 'FontAwesome',
     fontSize: '18px',
-    lineHeight: '32px',
+    lineHeight: '34px',
+    margin: '8px',
     position: 'absolute',
     textAlign: 'center',
     bottom: 0,
     right: 0,
-    width: '30px',
-    height: '32px',
+    width: '34px',
+    height: '34px',
   },
 
   iconCreateTabDark: {
