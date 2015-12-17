@@ -121,9 +121,6 @@ export const isKeyUp = action =>
 
 export const isCreateTab = action =>
   (action === CreateButtonClicked) ||
-  // @TODO deprecate this one in favor of global buttons
-  (isWebViewAction(action) &&
-   action.action.action.type === 'WebView.Create') ||
   (action.type === 'Browser.CreateWebView' ||
    (isKeyDown(action) && action.action.type === 'Browser.CreateWebView'));
 
