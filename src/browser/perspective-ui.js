@@ -73,6 +73,13 @@ const overlay = cursor({
   update: Overlay.step
 });
 
+const createButton = cursor({
+  get: model => model.createButton,
+  set: (model, createButton) => merge(model, {createButton}),
+  tag: CreateButtonAction,
+  update: CreateButton.step
+});
+
 export const isOverlayClick = action =>
   action === OverlayClicked;
 
