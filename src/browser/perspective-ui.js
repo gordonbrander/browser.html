@@ -7,6 +7,7 @@ import * as Sidebar from './sidebar';
 import * as Browser from './browser';
 import * as WebViews from './web-views';
 import * as Overlay from './overlay';
+import * as CreateButton from './create-button';
 import {asFor, merge, cursor} from '../common/prelude';
 import * as URI from '../common/url-helper';
 import {Style, StyleSheet} from '../common/style';
@@ -15,16 +16,19 @@ import {ease, easeOutCubic, float} from 'eased';
 
 
 export const OverlayClicked = {type: "OverlayClicked"};
+export const CreateButtonClicked = {type: "CreateButtonClicked"};
 
 export const initialize/*:type.initialize*/ = () => {
   const [browser, browserFx] = Browser.initialize();
   const [sidebar, sidebarFx] = Sidebar.init();
   const [overlay, overlayFx] = Overlay.init(false, false);
+  const [createButton, createButtonFx] = CreateButton.init();
   const model = {
     mode: 'create-web-view',
     browser,
     sidebar,
     overlay,
+    createButton,
     animation: null,
   };
 
@@ -33,7 +37,8 @@ export const initialize/*:type.initialize*/ = () => {
     Effects.batch([
       browserFx,
       overlayFx.map(OverlayAction),
-      sidebarFx.map(SidebarAction)
+      sidebarFx.map(SidebarAction),
+      createButtonFx.map(CreateButtonAction)
     ])
   ];
 };
@@ -48,6 +53,11 @@ const OverlayAction = action =>
     action.type === "Click"
   ? OverlayClicked
   : ({type: "Overlay", action});
+
+const CreateButtonAction = action =>
+    action.type === "Click"
+  ? CreateButtonClicked
+  : ({type: "CreateButton", action});
 
 const sidebar = cursor({
   get: model => model.sidebar,
