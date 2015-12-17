@@ -505,37 +505,8 @@ const style = StyleSheet.create({
 
   iconShowTabsDark: {
     backgroundPosition: '0 -50px'
-  },
-
-  iconCreateTab: {
-    MozWindowDragging: 'no-drag',
-    color: 'rgba(0,0,0,0.8)',
-    fontFamily: 'FontAwesome',
-    fontSize: '18px',
-    lineHeight: '34px',
-    margin: '8px',
-    position: 'absolute',
-    textAlign: 'center',
-    bottom: 0,
-    right: 0,
-    width: '34px',
-    height: '34px',
-  },
-
-  iconCreateTabDark: {
-    color: 'rgba(255,255,255,0.8)',
   }
 });
-
-const renderCreateTabButton = (isDark) =>
-  html.div({
-    className: 'global-create-tab-icon',
-    style: Style(
-      style.iconCreateTab,
-      isDark && style.iconCreateTabDark
-    ),
-    // onClick: () => address(Create)
-  }, ['']);
 
 const renderShowTabsButton = (isDark) =>
   html.div({
@@ -594,8 +565,9 @@ const viewAsEditWebView = (model, address) =>
           model.browser.webViews,
           forward(address, SidebarAction)),
     thunk('create-tab-button',
-          renderCreateTabButton,
-          model.sidebar.isAttached),
+          CreateButton.view,
+          model.createButton,
+          forward(address, asFor('createButton'))),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -637,8 +609,9 @@ const viewAsShowWebView = (model, address) =>
           model.browser.webViews,
           forward(address, SidebarAction)),
     thunk('create-tab-button',
-          renderCreateTabButton,
-          model.sidebar.isAttached),
+          CreateButton.view,
+          model.createButton,
+          forward(address, asFor('createButton'))),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -681,8 +654,9 @@ const viewAsCreateWebView = (model, address) =>
           model.browser.webViews,
           forward(address, SidebarAction)),
     thunk('create-tab-button',
-          renderCreateTabButton,
-          model.sidebar.isAttached),
+          CreateButton.view,
+          model.createButton,
+          forward(address, asFor('createButton'))),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -725,8 +699,9 @@ const viewAsSelectWebView = (model, address) =>
           model.browser.webViews,
           forward(address, SidebarAction)),
     thunk('create-tab-button',
-          renderCreateTabButton,
-          model.sidebar.isAttached),
+          CreateButton.view,
+          model.createButton,
+          forward(address, asFor('createButton'))),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -769,8 +744,9 @@ const viewAsShowTabs = (model, address) =>
           model.browser.webViews,
           forward(address, SidebarAction)),
     thunk('create-tab-button',
-          renderCreateTabButton,
-          model.sidebar.isAttached),
+          CreateButton.view,
+          model.createButton,
+          forward(address, asFor('createButton'))),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)

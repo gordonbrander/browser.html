@@ -126,7 +126,7 @@ const style = StyleSheet.create({
   }
 });
 
-const view = ({isDark, display}, address) =>
+export const view = ({isDark, display}, address) =>
   html.div({
     className: 'global-create-tab-icon',
     style: Style(
