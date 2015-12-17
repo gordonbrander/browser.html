@@ -120,6 +120,8 @@ export const isKeyUp = action =>
   action.target === 'Browser.KeyUp';
 
 export const isCreateTab = action =>
+  (action === CreateButtonClicked) ||
+  // @TODO deprecate this one in favor of global buttons
   (isWebViewAction(action) &&
    action.action.action.type === 'WebView.Create') ||
   (action.type === 'Browser.CreateWebView' ||
@@ -577,7 +579,7 @@ const viewAsEditWebView = (model, address) =>
     thunk('create-tab-button',
           CreateButton.view,
           model.createButton,
-          forward(address, asFor('createButton'))),
+          forward(address, CreateButtonAction)),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -621,7 +623,7 @@ const viewAsShowWebView = (model, address) =>
     thunk('create-tab-button',
           CreateButton.view,
           model.createButton,
-          forward(address, asFor('createButton'))),
+          forward(address, CreateButtonAction)),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -666,7 +668,7 @@ const viewAsCreateWebView = (model, address) =>
     thunk('create-tab-button',
           CreateButton.view,
           model.createButton,
-          forward(address, asFor('createButton'))),
+          forward(address, CreateButtonAction)),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -711,7 +713,7 @@ const viewAsSelectWebView = (model, address) =>
     thunk('create-tab-button',
           CreateButton.view,
           model.createButton,
-          forward(address, asFor('createButton'))),
+          forward(address, CreateButtonAction)),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
@@ -756,7 +758,7 @@ const viewAsShowTabs = (model, address) =>
     thunk('create-tab-button',
           CreateButton.view,
           model.createButton,
-          forward(address, asFor('createButton'))),
+          forward(address, CreateButtonAction)),
     thunk('show-tabs-button',
           renderShowTabsButton,
           model.sidebar.isAttached)
