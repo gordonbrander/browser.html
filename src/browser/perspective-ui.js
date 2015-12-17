@@ -179,6 +179,9 @@ export const step = (model, action) => {
   else if (action.type === "Overlay") {
     return overlay(model, action.action);
   }
+  else if (action.type === 'CreateButton') {
+    return createButton(model, action.action);
+  }
   else if (action.type === 'For' && action.target === 'animation') {
     // @TODO Right now we set animation to null whet it is not running but
     // that makes delegation to Animation.step little tricky since animation
