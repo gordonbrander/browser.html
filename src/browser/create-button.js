@@ -68,11 +68,11 @@ const animate = (model, action) => {
     !model.isAttached ?
     {
       opacity: 1,
-      offset: 0
+      offset: 8
     } :
     {
       opacity: 1,
-      offset: 8
+      offset: 0
     };
 
   const projection = project(model);
