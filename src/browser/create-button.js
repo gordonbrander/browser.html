@@ -40,8 +40,8 @@ const stopwatch = cursor({
 });
 
 const interpolate = (from, to, progress) => ({
-  opacity: Easing.float(from, to, progress),
-  position: Easing.float(from, to, progress)
+  opacity: Easing.float(from.opacity, to.opacity, progress),
+  offset: Easing.float(from.offset, to.offset, progress)
 });
 
 // Project eventual destination of animation.
@@ -75,7 +75,7 @@ const animate = (model, action) => {
       offset: 8
     };
 
-  const projection = project(model)
+  const projection = project(model);
 
   return duration > animation.elapsed
     ? [ merge(model, {
@@ -100,9 +100,9 @@ export const step = (model, action) =>
   : action.type === "AnimationEnd"
   ? stopwatch(model, Stopwatch.End)
   : action.type === "Detach"
-  ? stopwatch(merge(model, {isDark: action.isDark}), Stopwatch.Start)
+  ? stopwatch(merge(model, {isDark: action.isDark, isAttached: false}), Stopwatch.Start)
   : action.type === "Attach"
-  ? stopwatch(merge(model, {isDark: true}), Stopwatch.Start)
+  ? stopwatch(merge(model, {isDark: true, isAttached: true}), Stopwatch.Start)
   : Unknown.step(model, action);
 
 const style = StyleSheet.create({
@@ -112,7 +112,6 @@ const style = StyleSheet.create({
     fontFamily: 'FontAwesome',
     fontSize: '18px',
     lineHeight: '34px',
-    margin: '8px',
     position: 'absolute',
     textAlign: 'center',
     bottom: 0,
