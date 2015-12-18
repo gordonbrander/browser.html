@@ -203,7 +203,7 @@ export const step = (model, action) => {
   else if (action.type === 'DetachSidebar') {
     const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Detach);
     const [createButton, createButtonFx] =
-      CreateButton.step(model.createButton, CreateButton.Detach);
+      CreateButton.step(model.createButton, CreateButton.asDetach(false));
 
     return [
       merge(model, {sidebar, createButton}),

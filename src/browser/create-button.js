@@ -22,7 +22,7 @@ export const init = () => [{
 }, Effects.none];
 
 // Show button detached from sidebar and themed light or dark.
-export const Detach = isDark => ({type: 'Detach', isDark});
+export const asDetach = isDark => ({type: 'Detach', isDark});
 // Show button against pinned sidebar.
 export const Attach = {type: "Attach"};
 
