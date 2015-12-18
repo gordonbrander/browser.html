@@ -17,8 +17,6 @@ import {ease, easeOutCubic, float} from 'eased';
 
 export const OverlayClicked = {type: "OverlayClicked"};
 export const CreateButtonClicked = {type: "CreateButtonClicked"};
-export const AttachSidebar = {type: 'AttachSidebar'};
-export const DetachSidebar = {type: 'DetachSidebar'};
 
 export const initialize/*:type.initialize*/ = () => {
   const [browser, browserFx] = Browser.initialize();
