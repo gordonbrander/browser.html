@@ -327,16 +327,28 @@ export const step = (model, action) => {
       const [browser, fx] = Browser.step(model.browser, action);
       const [overlay, overlayFx] = Overlay.step(model.overlay, Overlay.Show);
       const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Open);
+      const [createButton, createButtonFx] = CreateButton.step(
+        model.createButton,
+        CreateButton.asMove(false, true)
+      );
       const [animation, animationFx]
         = Animation.initialize(performance.now(), showTabsTransitionDuration);
 
       return [
-        merge(model, {browser, overlay, sidebar, animation, mode: 'show-tabs'}),
+        merge(model, {
+          browser,
+          overlay,
+          sidebar,
+          createButton,
+          animation,
+          mode: 'show-tabs'
+        }),
         Effects.batch([
           fx,
           sidebarFx.map(SidebarAction),
           animationFx.map(asByAnimation),
-          overlayFx.map(OverlayAction)
+          overlayFx.map(OverlayAction),
+          createButtonFx.map(CreateButtonAction)
         ])
       ];
     }
@@ -345,15 +357,27 @@ export const step = (model, action) => {
       const [browser, fx] = Browser.step(model.browser, action);
       const [overlay, overlayFx] = Overlay.step(model.overlay, Overlay.Show);
       const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Open);
+      const [createButton, createButtonFx] = CreateButton.step(
+        model.createButton,
+        CreateButton.asMove(false, true)
+      );
       const [animation, animationFx]
         = Animation.initialize(time, showTabsTransitionDuration);
 
       return [
-        merge(model, {browser, sidebar, overlay, animation, mode: 'select-web-view'}),
+        merge(model, {
+          browser,
+          sidebar,
+          overlay,
+          createButton,
+          animation,
+          mode: 'select-web-view'
+        }),
         Effects.batch([
           fx,
           overlayFx.map(OverlayAction),
           sidebarFx.map(SidebarAction),
+          createButtonFx.map(CreateButtonAction),
           // If animation was running no need for another tick.
           model.animation ? Effects.none : animationFx.map(asByAnimation)
         ])
@@ -382,16 +406,31 @@ export const step = (model, action) => {
       const [browser, fx] = Browser.step(model.browser, action);
       const [overlay, overlayFx] = Overlay.step(model.overlay, Overlay.Hide);
       const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Close);
+      const [createButton, createButtonFx] = CreateButton.step(
+        model.createButton,
+        CreateButton.asMove(
+          !model.sidebar.isAttached,
+          WebViews.isDark(model.browser.webViews)
+        )
+      );
       // TODO: Handle already running animation case (see #747).
       const [animation, animationFx]
         = Animation.initialize(time, hideTabsTransitionDuration);
 
       return [
-        merge(model, {browser, sidebar, overlay, animation, mode: 'show-web-view'}),
+        merge(model, {
+          browser,
+          sidebar,
+          overlay,
+          createButton,
+          animation,
+          mode: 'show-web-view'
+        }),
         Effects.batch([
           fx,
           sidebarFx.map(SidebarAction),
           overlayFx.map(OverlayAction),
+          createButtonFx.map(CreateButtonAction),
           // If animation was running no need for another tick.
           model.animation ? Effects.none : animationFx.map(asByAnimation)
         ])
@@ -401,12 +440,26 @@ export const step = (model, action) => {
       const [browser, fx] = Browser.step(model.browser, action);
       const [overlay, overlayFx] = Overlay.step(model.overlay, Overlay.Hide);
       const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Close);
+      const [createButton, createButtonFx] = CreateButton.step(
+        model.createButton,
+        CreateButton.asMove(
+          !model.sidebar.isAttached,
+          WebViews.isDark(model.browser.webViews)
+        )
+      );
       return [
-        merge(model, {browser, sidebar, overlay, mode: 'create-web-view'}),
+        merge(model, {
+          browser,
+          sidebar,
+          overlay,
+          createButton,
+          mode: 'create-web-view'
+        }),
         Effects.batch([
           fx,
           sidebarFx.map(SidebarAction),
-          overlayFx.map(OverlayAction)
+          overlayFx.map(OverlayAction),
+          createButtonFx.map(CreateButtonAction)
         ])
       ];
     }
@@ -416,12 +469,25 @@ export const step = (model, action) => {
       const [browser, fx] = Browser.step(model.browser, action);
       const [overlay, overlayFx] = Overlay.step(model.overlay, Overlay.Show);
       const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Close);
+      const [createButton, createButtonFx] = CreateButton.step(
+        model.createButton,
+        CreateButton.asMove(
+          !model.sidebar.isAttached,
+          WebViews.isDark(model.browser.webViews)
+        )
+      );
       return [
-        merge(model, {browser, overlay, mode: 'edit-web-view'}),
+        merge(model, {
+          browser,
+          overlay,
+          createButton,
+          mode: 'edit-web-view'
+        }),
         Effects.batch([
           fx,
           overlayFx.map(OverlayAction),
           sidebarFx.map(SidebarAction),
+          createButtonFx.map(CreateButtonAction),
           // If animation was running no need for another tick.
           model.animation ? Effects.none : animationFx.map(asByAnimation)
         ])
@@ -434,15 +500,30 @@ export const step = (model, action) => {
       const [browser, fx] = Browser.step(model.browser, action);
       const [overlay, overlayFx] = Overlay.step(model.overlay, Overlay.Hide);
       const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Close);
+      const [createButton, createButtonFx] = CreateButton.step(
+        model.createButton,
+        CreateButton.asMove(
+          !model.sidebar.isAttached,
+          WebViews.isDark(model.browser.webViews)
+        )
+      );
       const [animation, animationFx]
         = Animation.initialize(time, hideTabsTransitionDuration);
 
       return [
-        merge(model, {browser, sidebar, overlay, animation, mode: 'show-web-view'}),
+        merge(model, {
+          browser,
+          sidebar,
+          overlay,
+          createButton,
+          animation,
+          mode: 'show-web-view'
+        }),
         Effects.batch([
           fx,
           overlayFx.map(OverlayAction),
           sidebarFx.map(SidebarAction),
+          createButtonFx.map(CreateButtonAction),
           // If animation was running no need for another tick.
           model.animation ? Effects.none : animationFx.map(asByAnimation)
         ])

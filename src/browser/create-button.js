@@ -13,7 +13,7 @@ import {Style, StyleSheet} from '../common/style';
 
 export const init = () => [{
   isDark: false,
-  isAttached: false,
+  isNear: true,
   animation: null,
   display: {
     opacity: 1,
@@ -25,6 +25,7 @@ export const init = () => [{
 export const asDetach = isDark => ({type: 'Detach', isDark});
 // Show button against pinned sidebar.
 export const Attach = {type: "Attach"};
+export const asMove = (isNear, isDark) => ({type: 'Move', isNear, isDark});
 
 // Request webview create.
 export const Click = {type: "Click"};
@@ -46,7 +47,7 @@ const interpolate = (from, to, progress) => ({
 
 // Project eventual destination of animation.
 const project = model =>
-  !model.isAttached ?
+  model.isNear ?
   {
     opacity: 1,
     offset: 0
@@ -65,7 +66,7 @@ const animate = (model, action) => {
   // To fix it we need to ditch this easing library in favor of
   // something that will give us more like spring physics.
   const begin =
-    !model.isAttached ?
+    model.isNear ?
     {
       opacity: 1,
       offset: 8
@@ -94,15 +95,21 @@ const animate = (model, action) => {
     : [merge(model, {animation, display: projection}), fx.map(AnimationEnd)]
 }
 
+const stepMove = (model, action) =>
+  action.isNear !== model.isNear ?
+    stopwatch(merge(model, {
+      isDark: action.isDark,
+      isNear: action.isNear
+    }), Stopwatch.Start) :
+  [model, Effects.none];
+
 export const step = (model, action) =>
     action.type === "Animation"
   ? animate(model, action)
   : action.type === "AnimationEnd"
   ? stopwatch(model, Stopwatch.End)
-  : action.type === "Detach"
-  ? stopwatch(merge(model, {isDark: action.isDark, isAttached: false}), Stopwatch.Start)
-  : action.type === "Attach"
-  ? stopwatch(merge(model, {isDark: true, isAttached: true}), Stopwatch.Start)
+  : action.type === "Move"
+  ? stepMove(model, action)
   : Unknown.step(model, action);
 
 const style = StyleSheet.create({
