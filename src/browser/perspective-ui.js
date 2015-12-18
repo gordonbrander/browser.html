@@ -48,10 +48,6 @@ export const initialize/*:type.initialize*/ = () => {
 const SidebarAction = action =>
     action.type === "Tabs"
   ? asByWebViews(action.action)
-  : action.type === "Attach"
-  ? AttachSidebar
-  : action.type === "Detach"
-  ? DetachSidebar
   : ({type: "Sidebar", action});
 
 
@@ -186,32 +182,6 @@ export const step = (model, action) => {
   }
   else if (action.type === 'CreateButton') {
     return createButton(model, action.action);
-  }
-  else if (action.type === 'AttachSidebar') {
-    const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Attach);
-    const [createButton, createButtonFx] =
-      CreateButton.step(model.createButton, CreateButton.Attach);
-
-    return [
-      merge(model, {sidebar, createButton}),
-      Effects.batch([
-        sidebarFx.map(SidebarAction),
-        createButtonFx.map(CreateButtonAction)
-      ])
-    ];
-  }
-  else if (action.type === 'DetachSidebar') {
-    const [sidebar, sidebarFx] = Sidebar.step(model.sidebar, Sidebar.Detach);
-    const [createButton, createButtonFx] =
-      CreateButton.step(model.createButton, CreateButton.asDetach(false));
-
-    return [
-      merge(model, {sidebar, createButton}),
-      Effects.batch([
-        sidebarFx.map(SidebarAction),
-        createButtonFx.map(CreateButtonAction)
-      ])
-    ];
   }
   else if (action.type === 'For' && action.target === 'animation') {
     // @TODO Right now we set animation to null whet it is not running but
