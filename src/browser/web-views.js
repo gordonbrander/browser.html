@@ -35,6 +35,9 @@ export const ActivateSelected = ({
   type: "WebViews.ActivateSelected"
 });
 
+// Create new move action for coordinates
+export const asMove = ({coords}) => ({type: 'Move', coords});
+
 export const indexByID/*:type.indexByID*/ = (model, id) =>
   model.entries.findIndex(entry => entry.id === id);
 
@@ -330,6 +333,16 @@ const style = StyleSheet.create({
     // WARNING: will slow down animations! (Gecko)
     // xBorderRadius: '4px',
   }
+});
+
+// Create a "gimbal" CSS property string. Rotates and translates the element
+// in 3D space as if on a camera gimbal.
+const transformGimbal = (x, y, z, rx, ry, rz) => ({
+  transform:
+    `translate3d(${x}px, ${y}px, ${z}px)
+    rotateX(${rx}deg)
+    rotateY(${ry}deg)
+    rotateZ(${rz}deg)`
 });
 
 export const view/*:type.view*/ = (model, address, modeStyle) =>

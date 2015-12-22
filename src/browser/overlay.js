@@ -33,11 +33,16 @@ export const Show = {type: "Show"};
 export const Hide = {type: "Hide"};
 export const Fade = {type: "Fade"};
 
+// Create new move action for coordinates
+export const asMove = (x, y) => ({type: 'Move', coords: [x, y]});
+
 const Animation = action => ({type: "Animation", action});
 const Shown = always({type: "Shown"});
 const Hidden = always({type: "Hidden"});
 const Faded = always({type: "Faded"});
 
+// Recalculate coords as distance-from-centerpoint.
+const asCartesian = (left, width) => (left + (-1 * (width / 2)));
 
 export const init = (isVisible, isCapturing) =>
   [Model(isVisible, isCapturing), Effects.none];
@@ -141,5 +146,13 @@ export const view = (model, address) =>
       opacity: model.display.opacity,
       pointerEvents: model.isCapturing ? 'all' : 'none'
     }),
-    onClick: () => address(Click)
+    onClick: () => address(Click),
+    onMouseMove: event => {
+      if (model.isCapturing) {
+        address(asMove(
+          asCartesian(event.clientX, window.innerWidth),
+          asCartesian(event.clientY, window.innerHeight)
+        ));
+      }
+    }
   });

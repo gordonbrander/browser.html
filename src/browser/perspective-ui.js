@@ -50,6 +50,8 @@ const SidebarAction = action =>
 const OverlayAction = action =>
     action.type === "Click"
   ? OverlayClicked
+  : action.type === "Move"
+  ? asByWebViews(WebViews.asMove(action))
   : ({type: "Overlay", action});
 
 const sidebar = cursor({
