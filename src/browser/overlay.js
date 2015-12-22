@@ -141,5 +141,5 @@ export const view = (model, address) =>
       opacity: model.display.opacity,
       pointerEvents: model.isCapturing ? 'all' : 'none'
     }),
-    onClick: forward(address, Click)
+    onClick: () => address(Click)
   });
