@@ -37,7 +37,7 @@ export const ActivateSelected = ({
 });
 
 // Create new move action for coordinates
-export const asMove = ({coords}) => ({type: 'Move', coords});
+export const asMove = ([x, y]) => ({type: 'Move', coords: [x, y]});
 
 export const indexByID/*:type.indexByID*/ = (model, id) =>
   model.entries.findIndex(entry => entry.id === id);

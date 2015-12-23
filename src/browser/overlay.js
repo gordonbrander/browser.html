@@ -34,7 +34,7 @@ export const Hide = {type: "Hide"};
 export const Fade = {type: "Fade"};
 
 // Create new move action for coordinates
-export const asMove = (x, y) => ({type: 'Move', coords: [x, y]});
+export const asMove = ([x, y]) => ({type: 'Move', coords: [x, y]});
 
 const Animation = action => ({type: "Animation", action});
 const Shown = always({type: "Shown"});
@@ -149,10 +149,10 @@ export const view = (model, address) =>
     onClick: () => address(Click),
     onMouseMove: event => {
       if (model.isCapturing) {
-        address(asMove(
+        address(asMove([
           asCartesian(event.clientX, window.innerWidth),
           asCartesian(event.clientY, window.innerHeight)
-        ));
+        ]));
       }
     }
   });
