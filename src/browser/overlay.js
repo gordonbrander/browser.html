@@ -146,7 +146,7 @@ export const view = (model, address) =>
       opacity: model.display.opacity,
       pointerEvents: model.isCapturing ? 'all' : 'none'
     }),
-    onClick: () => address(Click),
+    onClick: forward(address, Click),
     onMouseMove: event => {
       if (model.isCapturing) {
         address(asMove([
