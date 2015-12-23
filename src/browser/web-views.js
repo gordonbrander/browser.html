@@ -14,6 +14,7 @@ import {Style, StyleSheet} from "../common/style";
 
 export const initial = {
   nextID: 0,
+  coords: [0, 0],
   // @TODO selected field should probably live elsewhere and be maintained
   // by a different component.
   selected: -1,
@@ -289,6 +290,9 @@ export const step/*:type.step*/ = (model, action) => {
   else if (action.type === "WebViews.ByID") {
     return stepByID(model, action.id, action.action);
   }
+  else if (action.type === 'Move') {
+    return [merge(model, {coords: action.coords}), Effects.none];
+  }
   else {
     console.warn(`WebViews module does not know how to handle ${action.type}`, action);
     return [model, Effects.none];
@@ -348,7 +352,18 @@ const transformGimbal = (x, y, z, rx, ry, rz) => ({
 export const view/*:type.view*/ = (model, address, modeStyle) =>
   html.div({
     className: 'webviews-stack',
-    style: Style(style.webviews, modeStyle)
+    style: Style(
+      style.webviews,
+      modeStyle,
+      transformGimbal(
+        (model.coords[0] * -0.02),
+        (model.coords[1] * -0.07),
+        -400,
+        (-1 * (model.coords[1] * 0.02)),
+        (model.coords[0] * 0.02),
+        0
+      )
+    )
   }, model
       .entries
       .map(entry => thunk(entry.id,
