@@ -8,6 +8,7 @@ import {Effects, html, forward} from "reflex";
 import {merge, always, cursor} from "../common/prelude";
 import {Style, StyleSheet} from "../common/style";
 import * as Easing from "eased";
+import * as Target from "../common/target";
 import * as Stopwatch from "../common/stopwatch";
 import * as Unknown from "../common/unknown";
 
@@ -21,6 +22,7 @@ export const Model
   = ({isCapturing, isVisible}) =>
   ({isCapturing
   , isVisible
+  , isPointerOver: false
   , animation: null
   , display
       : isVisible
@@ -40,6 +42,13 @@ const Animation = action => ({type: "Animation", action});
 const Shown = always({type: "Shown"});
 const Hidden = always({type: "Hidden"});
 const Faded = always({type: "Faded"});
+
+const Point = action => ({type: "Point", action});
+
+const point = cursor({
+  tag: Point,
+  update: Target.step
+});
 
 // Recalculate coords as distance-from-centerpoint.
 const asCartesian = (left, width) => (left + (-1 * (width / 2)));
@@ -126,6 +135,8 @@ export const step/*:type.step*/ = (model, action) =>
     )
   : action.type === "Click"
   ? [model, Effects.none]
+  : action.type === "Point"
+  ? point(model, action.action)
   : Unknown.step(model, action);
 
 const style = StyleSheet.create({
@@ -154,5 +165,7 @@ export const view = (model, address) =>
           asCartesian(event.clientY, window.innerHeight)
         ]));
       }
-    }
+    },
+    onMouseOver: () => address(Point(Target.Over)),
+    onMouseOut: () => address(Point(Target.Out))
   });
