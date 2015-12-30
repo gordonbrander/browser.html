@@ -185,7 +185,7 @@ export const step/*:type.step*/ = (model, action) =>
 
 const style = StyleSheet.create({
   root: {
-    background: '#24303D',
+    background: '#fff',
     perspective: '1000px',
     // These styles prevent scrolling with the arrow keys in the root window
     // when elements move outside of viewport.
