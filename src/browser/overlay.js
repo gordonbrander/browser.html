@@ -159,7 +159,7 @@ export const view = (model, address) =>
     }),
     onClick: forward(address, Click),
     onMouseMove: event => {
-      if (model.isCapturing) {
+      if (model.isCapturing && model.isPointerOver) {
         address(asMove([
           asCartesian(event.clientX, window.innerWidth),
           asCartesian(event.clientY, window.innerHeight)
