@@ -507,14 +507,6 @@ export const view/*:type.view*/ = (model, address) => {
           ])
         ])
       ]),
-      html.div({
-        className: 'webview-show-tabs-icon',
-        style: Style(
-          style.iconShowTabs,
-          isModelDark && style.iconShowTabsDark
-        ),
-        onClick: on(address, always(RequestShowTabs))
-      })
     ]),
     Progress.view(model.progress, address),
     html.div({
