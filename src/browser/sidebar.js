@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   },
 
   tab: {
+    color: 'rgba(0,0,0,0.6)',
     float: 'left',
     MozWindowDragging: 'no-drag',
     height: '32px',
@@ -50,7 +51,8 @@ const styles = StyleSheet.create({
   },
 
   tabSelected: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    color: '#000'
   },
 
   title: {
