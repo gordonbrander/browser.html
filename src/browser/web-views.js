@@ -320,7 +320,7 @@ const style = StyleSheet.create({
     // boxShadow: '0 50px 80px rgba(0,0,0,0.25)',
     // @WORKAROUND use percent instead of vw/vh to work around
     // https://github.com/servo/servo/issues/8754
-    height: '100%',
+    height: 'calc(100% - 32px)',
     width: '100%',
     left: 0,
     overflow: 'hidden', // necessary to clip the radius
