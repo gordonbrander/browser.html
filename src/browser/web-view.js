@@ -375,23 +375,6 @@ const style = StyleSheet.create({
     display: 'none'
   },
 
-  iconShowTabs: {
-    MozWindowDragging: 'no-drag',
-    backgroundImage: 'url(css/hamburger.sprite.png)',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: '0 0',
-    backgroundSize: '50px auto',
-    position: 'absolute',
-    height: '13px',
-    right: '8px',
-    top: '7px',
-    width: '14px'
-  },
-
-  iconShowTabsDark: {
-    backgroundPosition: '0 -50px'
-  },
-
   iconCreateTab: {
     MozWindowDragging: 'no-drag',
     color: 'rgba(0,0,0,0.8)',
