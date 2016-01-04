@@ -16,7 +16,7 @@ import * as Stopwatch from "../common/stopwatch";
 import * as Easing from "eased";
 
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   sidebar: {
     // WARNING: will slow down animations! (gecko)
     // boxShadow: 'rgba(0, 0, 0, 0.5) -50px 0 80px',
@@ -70,6 +70,24 @@ const styles = StyleSheet.create({
     top: '9px',
     width: '16px',
     height: '16px',
+  },
+
+  iconCreateTab: {
+    MozWindowDragging: 'no-drag',
+    color: 'rgba(0,0,0,0.8)',
+    fontFamily: 'FontAwesome',
+    fontSize: '18px',
+    lineHeight: '30px',
+    position: 'absolute',
+    textAlign: 'center',
+    bottom: 0,
+    right: 0,
+    width: '30px',
+    height: '30px',
+  },
+
+  iconCreateTabDark: {
+    color: 'rgba(255,255,255,0.8)',
   }
 });
 
@@ -247,8 +265,8 @@ const viewTab = (model, address, {titleOpacity}) =>
   html.div({
     className: 'sidebar-tab',
     style: Style(
-      styles.tab,
-      model.isSelected && styles.tabSelected
+      style.tab,
+      model.isSelected && style.tabSelected
     ),
     onMouseDown: () => address(WebView.Select),
     onMouseUp: () => address(WebView.Activate)
@@ -256,11 +274,11 @@ const viewTab = (model, address, {titleOpacity}) =>
     thunk('favicon',
           viewImage,
           readFaviconURI(model),
-          styles.favicon),
+          style.favicon),
     html.div({
       className: 'sidebar-tab-title',
       style: Style(
-        styles.title,
+        style.title,
         {opacity: titleOpacity}
       )
     }, [
@@ -276,13 +294,18 @@ const viewSidebar = (key) => (model, {entries}, address) => {
   return html.div({
     key: key,
     className: key,
-    style: styles.sidebar
+    style: style.sidebar
   }, [
     html.div({
       className: 'sidebar-tabs-scrollbox',
-      style: styles.scrollbox
+      style: style.scrollbox
     }, entries.map(entry =>
         thunk(entry.id, viewTab, entry, forward(tabs, asByID(entry.id)), display))),
+    html.div({
+      className: 'sidebar-create-tab-icon',
+      style: style.iconCreateTab,
+      onClick: () => address(CreateWebView)
+    }, [''])
   ]);
 }
 
