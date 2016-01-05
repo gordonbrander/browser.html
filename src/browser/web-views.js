@@ -325,10 +325,7 @@ const style = StyleSheet.create({
     left: 0,
     overflow: 'hidden', // necessary to clip the radius
     position: 'absolute', // to position webviews relatively to stack
-    top: 0,
-    willChange: 'transform',
-    // WARNING: will slow down animations! (Gecko)
-    // xBorderRadius: '4px',
+    top: 0
   }
 });
 

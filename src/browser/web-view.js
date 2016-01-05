@@ -287,15 +287,13 @@ const style = StyleSheet.create({
     height: '100%',
     mozUserSelect: 'none',
     cursor: 'default',
-    opacity: 1,
-    zIndex: 2
+    opacity: 1
   },
 
   webViewInactive: {
     pointerEvents: 'none',
     visibility: 'hidden',
-    opacity: 0,
-    zIndex: 1
+    opacity: 0
   },
 
   iframe: {

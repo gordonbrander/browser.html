@@ -378,7 +378,6 @@ const style = StyleSheet.create({
 
   content: {
     position: 'absolute',
-    perspective: '1000px',
     height: '100%',
     width: '100%',
   },
