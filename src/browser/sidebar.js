@@ -20,8 +20,7 @@ const style = StyleSheet.create({
   sidebar: {
     // WARNING: will slow down animations! (gecko)
     // boxShadow: 'rgba(0, 0, 0, 0.5) -50px 0 80px',
-    backgroundColor: '#F0F2F5',
-    borderTop: '1px solid #E8EBED',
+    backgroundColor: '#DADFE6',
     willChange: 'box-shadow',
     height: '32px',
     position: 'absolute',
@@ -67,7 +66,7 @@ const style = StyleSheet.create({
     borderRadius: '3px',
     left: '9px',
     position: 'absolute',
-    top: '9px',
+    top: '8px',
     width: '16px',
     height: '16px',
   },
