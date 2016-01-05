@@ -91,18 +91,22 @@ const readSelect = ({target}) =>
   Editable.asSelect(readSelection(target));
 
 const inputWidth = '460px';
-const inputHeight = '40px';
+const inputHeight = '32px';
 
 const style = StyleSheet.create({
   combobox: {
     background: '#EBEEF2',
     borderRadius: '5px',
+    border: '3px solid transparent',
     height: inputHeight,
     left: '50%',
     marginLeft: `calc(-1 * (${inputWidth} / 2))`,
     position: 'absolute',
     top: '40px',
     width: inputWidth
+  },
+  comboboxFocused: {
+    border: '3px solid #4A90E2'
   },
   field: {
     background: 'transparent',
@@ -125,7 +129,7 @@ const style = StyleSheet.create({
     fontFamily: 'FontAwesome',
     fontSize: '16px',
     left: '10px',
-    lineHeight: '40px',
+    lineHeight: inputHeight,
     position: 'absolute',
     top: 0
   },
@@ -134,7 +138,7 @@ const style = StyleSheet.create({
     fontFamily: 'FontAwesome',
     fontSize: '16px',
     right: '10px',
-    lineHeight: '40px',
+    lineHeight: inputHeight,
     position: 'absolute'
   },
   clearIconInactive: {
@@ -145,7 +149,11 @@ const style = StyleSheet.create({
 export const view = (model, address, modeStyle) =>
   html.div({
     className: 'input-combobox',
-    style: Style(style.combobox, modeStyle)
+    style: Style(
+      style.combobox,
+      modeStyle,
+      model.isFocused && style.comboboxFocused
+    )
   }, [
     html.span({
       className: 'input-search-icon',
