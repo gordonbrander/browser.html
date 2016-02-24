@@ -10,6 +10,7 @@ import {Effects, html, forward, thunk} from "reflex";
 
 import * as Shell from "./shell";
 import * as Input from "./input";
+import * as NewTab from "./new-tab";
 import * as Assistant from "./assistant";
 import * as Sidebar from './sidebar';
 import * as WebViews from "./web-views";
@@ -43,6 +44,7 @@ export const init/*:type.init*/ = () => {
   const [webViews, webViewsFx] = WebViews.init();
   const [sidebar, sidebarFx] = Sidebar.init();
   const [assistant, assistantFx] = Assistant.init();
+  const [newTab, newTabFx] = NewTab.init();
   const [overlay, overlayFx] = Overlay.init(false, false);
 
   const model =
@@ -51,6 +53,7 @@ export const init/*:type.init*/ = () => {
     , shell
     , input
     , assistant
+    , newTab
     , webViews
     , sidebar
     , overlay
@@ -70,6 +73,7 @@ export const init/*:type.init*/ = () => {
       , updaterFx.map(UpdaterAction)
       , sidebarFx.map(SidebarAction)
       , assistantFx.map(AssistantAction)
+      , newTabFx.map(NewTabAction)
       , overlayFx.map(OverlayAction)
       , Effects.receive(CreateWebView)
       , Effects
@@ -170,6 +174,9 @@ const AssistantAction =
   ? Suggest(action.source)
   : tagged('Assistant', action)
   );
+
+// @TODO
+const NewTabAction = identity;
 
 const UpdaterAction = action =>
   ( { type: 'Updater'
@@ -850,7 +857,14 @@ export const view/*:type.view*/ = (model, address) =>
           ( 'overlay'
           , Overlay.view
           , model.overlay
-          , forward(address, OverlayAction))
+          , forward(address, OverlayAction)
+          )
+        , thunk
+          ( 'new-tab'
+          , NewTab.view
+          , model.newTab
+          , forward(address, NewTabAction)
+          )
         , thunk
           ( 'assistant'
           , Assistant.view
