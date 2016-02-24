@@ -472,7 +472,7 @@ const createWebView = model =>
   ( update
   , merge(model, {mode: 'create-web-view'})
   , [ Open
-      ( { uri: 'about:newtab'
+      ( { uri: URI.read('about:newtab')
         , inBackground: false
         , name: ''
         , features: ''
