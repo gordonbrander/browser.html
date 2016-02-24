@@ -175,8 +175,7 @@ const AssistantAction =
   : tagged('Assistant', action)
   );
 
-// @TODO
-const NewTabAction = identity;
+const NewTabAction = tag('NewTab');
 
 const UpdaterAction = action =>
   ( { type: 'Updater'
@@ -232,6 +231,14 @@ const updateOverlay = cursor({
   tag: OverlayAction,
   update: Overlay.update
 });
+
+const updateNewTab = cursor
+  ( { get: model => model.newTab
+    , set: (model, newTab) => merge(model, {newTab})
+    , update: NewTab.update
+    , tag: NewTabAction
+    }
+  );
 
 const updateUpdater = cursor
   ( { get: model => model.updater
@@ -395,6 +402,9 @@ const OpenAssistant = AssistantAction(Assistant.Open);
 const CloseAssistant = AssistantAction(Assistant.Close);
 const ExpandAssistant = AssistantAction(Assistant.Expand);
 const QueryAssistant = compose(AssistantAction, Assistant.Query);
+
+const ShowNewTab = NewTabAction(NewTab.Show);
+const HideNewTab = NewTabAction(NewTab.Hide);
 
 const OpenSidebar = SidebarAction(Sidebar.Open);
 const CloseSidebar = SidebarAction(Sidebar.Close);

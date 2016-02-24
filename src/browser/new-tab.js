@@ -7,11 +7,23 @@
 import {always, batch, merge, take, tag, tagged, move} from "../common/prelude"
 import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../common/style";
+import * as Unknown from "../common/unknown";
+
+export const Show = {type: "Show"};
+export const Hide = {type: "Hide"};
 
 export const init = () =>
-  [ {isHidden: false}
+  [ {isShown: false}
     , Effects.none
   ];
+
+export const update = (model, action) =>
+  ( action.type === "Show"
+  ? [merge(model, {isShown: true}), Effects.none]
+  : action.type === "Hide"
+  ? [merge(model, {isShown: false}), Effects.none]
+  : Unknown.update(model, action)
+  );
 
 export const styleSheet =
   StyleSheet.create
@@ -24,7 +36,7 @@ export const styleSheet =
     , shown:
       {}
     , hidden:
-      { display: 'block'
+      { display: 'none'
       }
     }
   );
@@ -34,9 +46,9 @@ export const view = (model, address) =>
   ( { className: 'newtab'
     , style: Style
       ( styleSheet.base
-      , ( model.isHidden
-        ? styleSheet.hidden
-        : styleSheet.shown
+      , ( model.isShown
+        ? styleSheet.shown
+        : styleSheet.hidden
         )
       )
     }
