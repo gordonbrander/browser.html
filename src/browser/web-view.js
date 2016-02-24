@@ -20,7 +20,7 @@ import * as Tab from './sidebar/tab';
 import * as Unknown from '../common/unknown';
 import * as Stopwatch from '../common/stopwatch';
 import {Style, StyleSheet} from '../common/style';
-import {readTitle, isDark} from './web-view/util';
+import {readTitle, isDark, isNewTab} from './web-view/util';
 import * as Driver from 'driver';
 import * as URI from '../common/url-helper';
 import * as Focusable from '../common/focusable';
@@ -734,7 +734,32 @@ const viewFrame = (model, address) =>
     onMozBrowserScrollAreaChanged: on(address, decodeScrollAreaChange),
   });
 
-export const view/*:type.view*/ = (model, address) => {
+const viewNewTab = (model, address) => {
+  const isModelDark = isDark(model);
+  return html.div
+  ( { className:
+      ( isModelDark
+      ? `webview webview-is-dark web-view-${model.id}`
+      : `webview web-view-${model.id}`
+      )
+    , style: Style
+      ( styleSheet.webview
+      , ( model.isActive
+        ? styleSheet.webviewActive
+        : model.isSelected
+        ? styleSheet.webviewSelected
+        : styleSheet.webviewInactive
+        )
+      , model.display
+      )
+    }
+  , [ viewFrame(model, address)
+    , Progress.view(model.progress, address)
+    ]
+  );
+}
+
+const viewWebView = (model, address) => {
   const isModelDark = isDark(model);
   return html.div
   ( { className:
@@ -838,6 +863,11 @@ export const view/*:type.view*/ = (model, address) => {
   );
 };
 
+export const view/*:type.view*/ = (model, address) =>
+  ( isNewTab(model)
+  ? viewNewTab(model, address)
+  : viewWebView(model, address)
+  );
 
 const decodeClose = always(Close);
 
