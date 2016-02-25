@@ -18,7 +18,7 @@ import * as Unknown from '../common/unknown';
 
 export const Open = tagged("Open");
 export const Close = tagged("Close");
-export const Expand = tagged("Expand");
+export const OpenResults = tagged("OpenResults");
 export const Unselect = tagged("Unselect");
 export const Reset = tagged("Reset");
 export const SuggestNext = tagged("SuggestNext");
@@ -40,11 +40,7 @@ const HistoryAction = tag("History");
 
 export const init =
   () =>
-  clear
-  ( { isOpen: false
-    , isExpanded: false
-    }
-  )
+  clear({mode: 'closed'});
 
 const reset =
   model =>
@@ -76,12 +72,11 @@ const clear =
     return result
   }
 
-const expand =
+const openResults =
   model =>
   [ merge
     ( model
-    , { isOpen: true
-      , isExpanded: true
+    , { mode: 'open-results'
       }
     )
   , Effects.none
@@ -91,8 +86,7 @@ const open =
   model =>
   [ merge
     ( model
-    , { isOpen: true
-      , isExpanded: false
+    , { mode: 'open'
       }
     )
   , Effects.none
@@ -103,7 +97,7 @@ const close =
   clear
   ( merge
     ( model
-    , { isOpen: false
+    , { mode: 'closed'
       , isExpanded: false
       }
     )
@@ -167,8 +161,8 @@ export const update/*:type.update*/ =
   ? open(model)
   : action.type === "Close"
   ? close(model)
-  : action.type === "Expand"
-  ? expand(model)
+  : action.type === "OpenResults"
+  ? openResults(model)
   : action.type === "Reset"
   ? reset(model)
   : action.type === "Unselect"
@@ -225,11 +219,9 @@ export const view/*:type.view*/ = (model, address) =>
   ( { className: 'assistant'
     , style: Style
       ( styleSheet.base
-      , ( model.isExpanded
-        ? styleSheet.expanded
-        : styleSheet.shrinked
-        )
-      , ( model.isOpen
+      , ( model.mode === 'open'
+        ? styleSheet.open
+        : model.mode === 'open-results' && model.query
         ? styleSheet.open
         : styleSheet.closed
         )

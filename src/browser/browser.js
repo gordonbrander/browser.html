@@ -400,7 +400,7 @@ export const FocusInput = InputAction(Input.Focus);
 
 const OpenAssistant = AssistantAction(Assistant.Open);
 const CloseAssistant = AssistantAction(Assistant.Close);
-const ExpandAssistant = AssistantAction(Assistant.Expand);
+const OpenAssistantResults = AssistantAction(Assistant.OpenResults);
 const QueryAssistant = compose(AssistantAction, Assistant.Query);
 
 const ShowNewTab = NewTabAction(NewTab.Show);
@@ -492,7 +492,7 @@ const createWebView = model =>
   , merge(model, {mode: 'create-web-view'})
   , [ ShowInput
     , ShowNewTab
-    , ExpandAssistant
+    , OpenAssistantResults
     , CloseSidebar
     , HideOverlay
     , FoldWebViews
