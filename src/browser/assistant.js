@@ -98,7 +98,6 @@ const close =
   ( merge
     ( model
     , { mode: 'closed'
-      , isExpanded: false
       }
     )
   );
@@ -189,12 +188,7 @@ const styleSheet = StyleSheet.create
       , position: 'absolute'
       , top: '0px'
       , width: '100%'
-      }
-    , expanded:
-      { height: '100%'
-      }
-    , shrinked:
-      { minHeight: '120px'
+      , minHeight: '120px'
       }
 
     , open:
