@@ -585,6 +585,11 @@ const styleSheet = StyleSheet.create({
     MozWindowDragging: 'no-drag'
   },
 
+  iframeFull: {
+    top: 0,
+    height: '100%',
+  },
+
   topbar: {
     backgroundColor: 'white', // dynamic
     position: 'absolute',
@@ -686,7 +691,7 @@ const styleSheet = StyleSheet.create({
   iconCreateTabBright: null
 });
 
-const viewFrame = (model, address) =>
+const FrameView = (style) => (model, address) =>
   html.iframe({
     id: `web-view-${model.id}`,
     src: model.navigation.initiatedURI,
@@ -694,7 +699,7 @@ const viewFrame = (model, address) =>
     'data-name': model.name,
     'data-features': model.features,
     element: Driver.element,
-    style: styleSheet.iframe,
+    style,
     attributes: {
       mozbrowser: true,
       remote: true,
@@ -734,6 +739,9 @@ const viewFrame = (model, address) =>
     onMozBrowserScrollAreaChanged: on(address, decodeScrollAreaChange),
   });
 
+const viewFrame = FrameView(styleSheet.iframe);
+const viewFrameFull = FrameView(Style(styleSheet.iframe, styleSheet.iframeFull));
+
 const viewNewTab = (model, address) => {
   const isModelDark = isDark(model);
   return html.div
@@ -753,7 +761,7 @@ const viewNewTab = (model, address) => {
       , model.display
       )
     }
-  , [ viewFrame(model, address)
+  , [ viewFrameFull(model, address)
     , Progress.view(model.progress, address)
     ]
   );
