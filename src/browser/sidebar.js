@@ -154,7 +154,6 @@ const display =
     }
   };
 
-
 const animationProjection = model =>
   ( model.isOpen
   ? display.open
@@ -224,7 +223,11 @@ const closeImmediate = model =>
   ? [ merge
       ( model
       , { isOpen: false
-        , display: display.closed
+        , display:
+          ( model.isAttached
+          ? display.attached
+          : display.closed
+          )
         }
       )
     , Effects.none
