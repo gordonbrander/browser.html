@@ -408,6 +408,7 @@ const HideNewTab = NewTabAction(NewTab.Hide);
 
 const OpenSidebar = SidebarAction(Sidebar.Open);
 const CloseSidebar = SidebarAction(Sidebar.Close);
+const CloseSidebarImmediate = SidebarAction(Sidebar.CloseImmediate);
 
 const DockSidebar =
   { type: "Sidebar"
@@ -493,7 +494,7 @@ const createWebView = model =>
   , [ ShowInput
     , ShowNewTab
     , OpenAssistantResults
-    , CloseSidebar
+    , CloseSidebarImmediate
     , HideOverlay
     , FoldWebViews
     , EnterInput

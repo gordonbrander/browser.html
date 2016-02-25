@@ -65,6 +65,7 @@ export const Detach =
 
 export const Open = {type: "Open"};
 export const Close = {type: "Close"};
+export const CloseImmediate = {type: "CloseImmediate"};
 export const Activate = {type: "Activate"};
 export const CloseTab/*:type.CloseTab*/ = id =>
   ({type: "CloseTab", id});
@@ -218,6 +219,19 @@ const close = model =>
   : [ model, Effects.none ]
   );
 
+const closeImmediate = model =>
+  ( model.isOpen
+  ? [ merge
+      ( model
+      , { isOpen: false
+        , display: display.closed
+        }
+      )
+    , Effects.none
+    ]
+  : [ model, Effects.none ]
+  );
+
 const attach = model =>
   ( model.isAttached
   ? [ model, Effects.none ]
@@ -235,6 +249,8 @@ export const update/*:type.update*/ = (model, action) =>
   ? open(model)
   : action.type === "Close"
   ? close(model)
+  : action.type === 'CloseImmediate'
+  ? closeImmediate(model)
   : action.type === "Attach"
   ? attach(model)
   : action.type === "Detach"
