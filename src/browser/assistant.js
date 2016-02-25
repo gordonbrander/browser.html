@@ -181,6 +181,13 @@ export const update/*:type.update*/ =
   : Unknown.update(model, action)
   );
 
+const hasResults = model =>
+  ( model.query &&
+    ( model.search.items.length > 0
+    || model.history.items.length > 0
+    )
+  );
+
 const styleSheet = StyleSheet.create
   ( { base:
       { background: '#fff'
@@ -215,7 +222,7 @@ export const view/*:type.view*/ = (model, address) =>
       ( styleSheet.base
       , ( model.mode === 'open'
         ? styleSheet.open
-        : model.mode === 'open-results' && model.query
+        : model.mode === 'open-results' && hasResults(model)
         ? styleSheet.open
         : styleSheet.closed
         )
