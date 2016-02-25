@@ -477,6 +477,7 @@ const showWebView = model =>
   ( update
   , merge(model, {mode: 'show-web-view'})
   , [ HideInput
+    , HideNewTab
     , CloseAssistant
     , CloseSidebar
     , HideOverlay
@@ -490,6 +491,7 @@ const createWebView = model =>
   ( update
   , merge(model, {mode: 'create-web-view'})
   , [ ShowInput
+    , ShowNewTab
     , ExpandAssistant
     , CloseSidebar
     , HideOverlay
