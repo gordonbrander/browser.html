@@ -791,6 +791,10 @@ export const update/*:type.update*/ = (model, action) =>
   : action.type === 'SuggestPrevious'
   ? updateAssistant(model, Assistant.SuggestPrevious)
 
+  // New Tab
+  : action.type === 'NewTab'
+  ? updateNewTab(model, action.source)
+
   : action.type === 'Devtools'
   ? updateDevtools(model, action.action)
   : action.type === 'Sidebar'
