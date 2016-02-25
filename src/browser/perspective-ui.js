@@ -14,14 +14,7 @@ export const init = Browser.init
 
 export const update = (model, action) =>
   ( model.mode === 'create-web-view'
-  ? ( action.type === 'ExitInput'
-    ? ( model.webViews.order.length > 0
-      ? Browser.update(model, Browser.ShowWebView)
-      : [ model, Effects.none ]
-      )
-    // If uri is submitted in create-web-view mode then
-    // opne new web-view.
-    : action.type === 'SubmitInput'
+  ? ( action.type === 'SubmitInput'
     ? batch
       ( Browser.update
       , model
@@ -36,6 +29,14 @@ export const update = (model, action) =>
       , model
       , [ action
         , Browser.FocusInput
+        ]
+      )
+    : action.type === 'SelectTab'
+    ? batch
+      ( Browser.update
+      , model
+      , [ action
+        , Browser.SelectWebView
         ]
       )
 
