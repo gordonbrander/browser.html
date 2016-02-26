@@ -9,19 +9,31 @@ import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../common/style";
 import * as Unknown from "../common/unknown";
 
+import * as Tiles from './new-tab/tiles';
+
+const TilesAction = tagged('Tiles');
+
 export const Show = {type: "Show"};
 export const Hide = {type: "Hide"};
 
 export const init = () =>
-  [ {isShown: false}
-    , Effects.none
-  ];
+  {
+    const [tiles, tilesFx] = Tiles.init();
+    return (
+      [
+        { isShown: false
+        , tiles
+        }
+        , tilesFx
+      ]
+    );
+  }
 
 export const update = (model, action) =>
   ( action.type === "Show"
-  ? [merge(model, {isShown: true}), Effects.none]
+  ? [ merge(model, {isShown: true}), Effects.none ]
   : action.type === "Hide"
-  ? [merge(model, {isShown: false}), Effects.none]
+  ? [ merge(model, {isShown: false}), Effects.none ]
   : Unknown.update(model, action)
   );
 
@@ -52,4 +64,12 @@ export const view = (model, address) =>
         )
       )
     }
+  , [
+      thunk
+      ( 'tiles'
+      , Tiles.view
+      , model.tiles
+      , forward(address, TilesAction)
+      )
+    ]
   );
