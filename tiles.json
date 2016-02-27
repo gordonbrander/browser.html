@@ -11,8 +11,7 @@
   , 8
   , 9
   , 10
-  // , 11
-  // , 12
+  , 11
   ]
 , "entries":
   { "0":
@@ -56,19 +55,24 @@
     , "src": "tiles/vox.com.png"
     }
   , "8":
+    { "title": "Tumblr"
+    , "uri": "https://tumblr.com"
+    , "src": "tiles/tumblr.com.png"
+    }
+  , "9":
     { "title": "Github"
     , "uri": "https://github.com"
     , "src": "tiles/github.com.png"
     }
-  , "9":
+  , "10":
+    { "title": "Stack Overflow"
+    , "uri": "https://github.com/browserhtml/browserhtml/issues"
+    , "src": "tiles/stackoverflow.com.png"
+    }
+  , "11":
     { "title": "browser.html Slack"
     , "uri": "https://browserhtml.slack.com"
     , "src": "tiles/slack.com.png"
-    }
-  , "10":
-    { "title": "File a Bug"
-    , "uri": "https://github.com/browserhtml/browserhtml/issues"
-    , "src": "tiles/github.com.png"
     }
   }
 }
