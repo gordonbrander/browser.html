@@ -10,6 +10,7 @@ import {Style, StyleSheet} from "../common/style";
 import * as Unknown from "../common/unknown";
 
 import * as Tiles from './new-tab/tiles';
+import * as Help from './new-tab/help';
 
 const TilesAction = action =>
   ( action.type === "Open"
@@ -68,11 +69,16 @@ export const view = (model, address) =>
         )
       )
     }
-  , [
-      thunk
+  , [ thunk
       ( 'tiles'
       , Tiles.view
       , model.tiles
+      , forward(address, TilesAction)
+      )
+    , thunk
+      ( 'help'
+      , Help.view
+      , null
       , forward(address, TilesAction)
       )
     ]
