@@ -4,14 +4,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {merge, tagged} from "../common/prelude"
+import {merge, tag, tagged} from "../common/prelude"
 import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../common/style";
+import {cursor} from "../common/cursor";
 import * as Unknown from "../common/unknown";
 
 import * as Tiles from './new-tab/tiles';
 import * as Wallpaper from './new-tab/wallpaper';
 import * as Help from './new-tab/help';
+
+const WallpaperAction = tag('Wallpaper');
 
 const TilesAction = action =>
   ( action.type === "Open"
@@ -33,19 +36,28 @@ export const init = () =>
         , tiles
         }
       , Effects.batch
-        ( [ tilesFx
-          , wallpaperFx
+        ( [ tilesFx.map(TilesAction)
+          , wallpaperFx.map(WallpaperAction)
           ]
         )
       ]
     );
   }
 
+const updateWallpaper = cursor({
+  get: model => model.wallpaper,
+  set: (model, wallpaper) => merge(model, {wallpaper}),
+  update: Wallpaper.update,
+  tag: WallpaperAction
+});
+
 export const update = (model, action) =>
   ( action.type === "Show"
   ? [ merge(model, {isShown: true}), Effects.none ]
   : action.type === "Hide"
   ? [ merge(model, {isShown: false}), Effects.none ]
+  : action.type === 'Wallpaper'
+  ? updateWallpaper(model, action.source)
   : Unknown.update(model, action)
   );
 
@@ -67,7 +79,11 @@ export const styleSheet =
 
 const readWallpaper = ({src, color}) =>
   (
-    { backgroundImage: `url(${src})`
+    { backgroundImage:
+      ( src
+      ? `url(${src})`
+      : 'none'
+      )
     , backgroundColor: color
     , backgroundSize: 'cover'
     , backgroundRepeat: 'no-repeat'
@@ -100,7 +116,7 @@ export const view = ({wallpaper, tiles, isShown}, address) => {
         ( 'wallpaper'
         , Wallpaper.view
         , wallpaper
-        , forward(address, TilesAction)
+        , forward(address, WallpaperAction)
         )
       , thunk
         ( 'help'
