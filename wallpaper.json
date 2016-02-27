@@ -1,0 +1,13 @@
+{ "active": "0"
+, "order":
+  [
+    "0"
+  ]
+, "entries":
+  {
+    "0":
+    { "src": "wallpaper/shore.jpg"
+    , "color": "#30b1a2"
+    }
+  }
+}

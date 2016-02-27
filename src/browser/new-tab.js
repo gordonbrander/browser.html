@@ -7,9 +7,11 @@
 import {merge, tagged} from "../common/prelude"
 import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../common/style";
+import {compose} from '../lang/functional';
 import * as Unknown from "../common/unknown";
 
 import * as Tiles from './new-tab/tiles';
+import * as Wallpaper from './new-tab/wallpaper';
 import * as Help from './new-tab/help';
 
 const TilesAction = action =>
@@ -24,12 +26,18 @@ export const Hide = {type: "Hide"};
 export const init = () =>
   {
     const [tiles, tilesFx] = Tiles.init();
+    const [wallpaper, wallpaperFx] = Wallpaper.init();
     return (
       [
         { isShown: false
+        , wallpaper
         , tiles
         }
-        , tilesFx
+      , Effects.batch
+        ( [ tilesFx
+          , wallpaperFx
+          ]
+        )
       ]
     );
   }
@@ -45,7 +53,7 @@ export const update = (model, action) =>
 export const styleSheet =
   StyleSheet.create
   ( { base:
-      { background: '#fff'
+      { backgroundColor: '#fff'
       , width: '100%'
       , height: '100%'
       , position: 'absolute'
@@ -58,21 +66,43 @@ export const styleSheet =
     }
   );
 
-export const view = (model, address) =>
+const readActive = ({entries, active}) =>
+  ( entries[active] );
+
+const readWallpaper = ({src, color}) =>
+  (
+    { backgroundImage: `url(${src})`
+    , backgroundColor: color
+    , backgroundSize: 'cover'
+    , backgroundRepeat: 'no-repeat'
+    , backgroundPosition: 'center center'
+    }
+  );
+
+const readActiveWallpaper = compose(readWallpaper, readActive);
+
+export const view = ({wallpaper, tiles, isShown}, address) =>
   html.div
   ( { className: 'newtab'
     , style: Style
       ( styleSheet.base
-      , ( model.isShown
+      , ( isShown
         ? styleSheet.shown
         : styleSheet.hidden
         )
+      , readActiveWallpaper(wallpaper)
       )
     }
   , [ thunk
       ( 'tiles'
       , Tiles.view
-      , model.tiles
+      , tiles
+      , forward(address, TilesAction)
+      )
+    , thunk
+      ( 'wallpaper'
+      , Wallpaper.view
+      , wallpaper
       , forward(address, TilesAction)
       )
     , thunk
