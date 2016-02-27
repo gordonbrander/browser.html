@@ -175,7 +175,11 @@ const AssistantAction =
   : tagged('Assistant', action)
   );
 
-const NewTabAction = tag('NewTab');
+const NewTabAction = action =>
+  ( action.type === 'Open'
+  ? OpenURL({url: action.uri})
+  : tagged('NewTab', action)
+  );
 
 const UpdaterAction = action =>
   ( { type: 'Updater'
