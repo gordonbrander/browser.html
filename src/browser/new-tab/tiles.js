@@ -28,7 +28,9 @@ const styleSheet = StyleSheet.create
       , overflow: 'hidden'
       , position: 'absolute'
       , left: 'calc(50% - (840px / 2))'
-      , top: 'calc(50% - (480px / 2))'
+      // Add offset for visual space taken up by location bar
+      // Then offset by half of the height of the tiles.
+      , top: 'calc(((100% + 80px) / 2) - (480px / 2))'
       }
     }
   );
