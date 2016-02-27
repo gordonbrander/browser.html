@@ -24,7 +24,8 @@ const Open = uri =>
 
 const styleSheet = StyleSheet.create
   ( { tile:
-      { float: 'left'
+      { cursor: 'pointer'
+      , float: 'left'
       , margin: '10px 25px 20px'
       , width: '160px'
       }
