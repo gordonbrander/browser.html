@@ -25,15 +25,27 @@ const styleSheet = StyleSheet.create
       , bottom: '10px'
       , right: '15px'
       }
+    , textLight:
+      { color: 'rgba(0,0,0,0.8)'
+      }
+    , textDark:
+      { color: 'rgba(255,255,255,0.7)'
+      }
     }
   );
 
 const ISSUES_URL = 'https://github.com/servo/servo/issues/new';
 
-export const view = (model, address) =>
+export const view = (model, address, isDark) =>
   html.a
   ( { className: 'help'
-    , style: styleSheet.base
+    , style: Style
+      ( styleSheet.base
+      , ( isDark
+        ? styleSheet.textDark
+        : styleSheet.textLight
+        )
+      )
     , onClick: () => address(Open(ISSUES_URL))
     }
     // @TODO localize this string

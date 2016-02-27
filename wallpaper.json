@@ -8,6 +8,7 @@
     "0":
     { "src": "wallpaper/shore.jpg"
     , "color": "#30b1a2"
+    , "isDark": true
     }
   }
 }

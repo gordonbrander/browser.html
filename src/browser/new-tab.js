@@ -7,7 +7,6 @@
 import {merge, tagged} from "../common/prelude"
 import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../common/style";
-import {compose} from '../lang/functional';
 import * as Unknown from "../common/unknown";
 
 import * as Tiles from './new-tab/tiles';
@@ -66,9 +65,6 @@ export const styleSheet =
     }
   );
 
-const readActive = ({entries, active}) =>
-  ( entries[active] );
-
 const readWallpaper = ({src, color}) =>
   (
     { backgroundImage: `url(${src})`
@@ -79,37 +75,41 @@ const readWallpaper = ({src, color}) =>
     }
   );
 
-const readActiveWallpaper = compose(readWallpaper, readActive);
-
-export const view = ({wallpaper, tiles, isShown}, address) =>
-  html.div
-  ( { className: 'newtab'
-    , style: Style
-      ( styleSheet.base
-      , ( isShown
-        ? styleSheet.shown
-        : styleSheet.hidden
+export const view = ({wallpaper, tiles, isShown}, address) => {
+  const activeWallpaper = Wallpaper.active(wallpaper);
+  return (
+    html.div
+    ( { className: 'newtab'
+      , style: Style
+        ( styleSheet.base
+        , ( isShown
+          ? styleSheet.shown
+          : styleSheet.hidden
+          )
+        , readWallpaper(activeWallpaper)
         )
-      , readActiveWallpaper(wallpaper)
-      )
-    }
-  , [ thunk
-      ( 'tiles'
-      , Tiles.view
-      , tiles
-      , forward(address, TilesAction)
-      )
-    , thunk
-      ( 'wallpaper'
-      , Wallpaper.view
-      , wallpaper
-      , forward(address, TilesAction)
-      )
-    , thunk
-      ( 'help'
-      , Help.view
-      , null
-      , forward(address, TilesAction)
-      )
-    ]
-  );
+      }
+    , [ thunk
+        ( 'tiles'
+        , Tiles.view
+        , tiles
+        , forward(address, TilesAction)
+        , activeWallpaper.isDark
+        )
+      , thunk
+        ( 'wallpaper'
+        , Wallpaper.view
+        , wallpaper
+        , forward(address, TilesAction)
+        )
+      , thunk
+        ( 'help'
+        , Help.view
+        , null
+        , forward(address, TilesAction)
+        , activeWallpaper.isDark
+        )
+      ]
+    )
+  )
+}

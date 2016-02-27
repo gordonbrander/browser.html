@@ -26,6 +26,9 @@ const WallpaperAction = action =>
   : tagged('Wallpaper', action)
   );
 
+export const active = ({entries, active}) =>
+  ( entries[active] );
+
 const styleSheet = StyleSheet.create
   ( { list:
       { cursor: 'pointer'

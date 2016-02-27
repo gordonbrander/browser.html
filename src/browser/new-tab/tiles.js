@@ -39,7 +39,7 @@ const styleSheet = StyleSheet.create
     }
   );
 
-export const view = (model, address) =>
+export const view = (model, address, isDark) =>
   html.div
   ( { className: 'tiles'
     , style: styleSheet.tiles
@@ -51,6 +51,7 @@ export const view = (model, address) =>
       , Tile.view
       , model.entries[String(id)]
       , forward(address, TileAction)
+      , isDark
       )
     )
   );

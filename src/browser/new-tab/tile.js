@@ -41,8 +41,7 @@ const styleSheet = StyleSheet.create
       , width: '160px'
       }
     , title:
-      { color: 'rgba(0,0,0,0.8)'
-      , fontSize: '14px'
+      { fontSize: '14px'
       , fontWeight: 'medium'
       , lineHeight: '20px'
       , overflow: 'hidden'
@@ -51,10 +50,16 @@ const styleSheet = StyleSheet.create
       , whiteSpace: 'nowrap'
       , width: '100%'
       }
+    , titleLight:
+      { color: 'rgba(0,0,0,0.8)'
+      }
+    , titleDark:
+      { color: 'rgba(255,255,255,0.7)'
+      }
     }
   );
 
-export const view = (model, address) =>
+export const view = (model, address, isDark) =>
   html.div
   ( { className: 'tile'
     , style: styleSheet.tile
@@ -71,7 +76,13 @@ export const view = (model, address) =>
       )
     , html.div
       ( { className: 'tile-title'
-        , style: styleSheet.title
+        , style: Style
+          ( styleSheet.title
+          , ( isDark
+            ? styleSheet.titleDark
+            : styleSheet.titleLight
+            )
+          )
         }
       , [ model.title
         ]
