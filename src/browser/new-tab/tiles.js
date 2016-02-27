@@ -22,8 +22,13 @@ const TileAction = tagged('Tile');
 
 const styleSheet = StyleSheet.create
   ( { tiles:
-      { width: '810px'
-      , margin: '0 auto'
+      { width: '840px'
+      // Hardcoded until we get flexbox in Servo
+      , height: '480px'
+      , overflow: 'hidden'
+      , position: 'absolute'
+      , left: 'calc(50% - (840px / 2))'
+      , top: 'calc(50% - (480px / 2))'
       }
     }
   );

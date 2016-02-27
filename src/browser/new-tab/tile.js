@@ -25,18 +25,24 @@ const Open = uri =>
 
 const styleSheet = StyleSheet.create
   ( { tile:
-      { width: '160px'
+      { float: 'left'
+      , margin: '10px 25px 20px'
+      , width: '160px'
       }
     , image:
       { backgroundColor: '#fff'
       , backgroundSize: 'cover'
       , backgroundPosition: 'center center'
+      , border: '1px solid rgba(0,0,0,0.15)'
       , borderRadius: '12px'
+      , boxSizing: 'border-box'
       , height: '100px'
+      , margin: '0 0 10px'
       , width: '160px'
       }
     , title:
       { fontSize: '14px'
+      , fontWeight: 'medium'
       , lineHeight: '20px'
       , overflow: 'hidden'
       , textAlign: 'center'
@@ -66,6 +72,8 @@ export const view = (model, address) =>
       ( { className: 'tile-title'
         , style: styleSheet.title
         }
+      , [ model.title
+        ]
       )
     ]
   );
