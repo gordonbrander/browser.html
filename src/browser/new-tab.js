@@ -4,14 +4,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {always, batch, merge, take, tag, tagged, move} from "../common/prelude"
+import {merge, tag} from "../common/prelude"
 import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../common/style";
 import * as Unknown from "../common/unknown";
 
 import * as Tiles from './new-tab/tiles';
 
-const TilesAction = tagged('Tiles');
+const TilesAction = tag('Tiles');
 
 export const Show = {type: "Show"};
 export const Hide = {type: "Hide"};

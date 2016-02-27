@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {always, batch, merge, take, tag, tagged, move} from "../../common/prelude"
+import {tag} from "../../common/prelude"
 import {Effects, html, thunk, forward} from "reflex"
 import {Style, StyleSheet} from "../../common/style";
 import * as Tile from './tile';
@@ -18,7 +18,7 @@ export const init = () =>
   , Effects.none
   ];
 
-const TileAction = tagged('Tile');
+const TileAction = tag('Tile');
 
 const styleSheet = StyleSheet.create
   ( { tiles:
@@ -30,7 +30,7 @@ const styleSheet = StyleSheet.create
       , left: 'calc(50% - (840px / 2))'
       // Add offset for visual space taken up by location bar
       // Then offset by half of the height of the tiles.
-      , top: 'calc(((100% + 80px) / 2) - (480px / 2))'
+      , top: 'calc(((100% + 60px) / 2) - (480px / 2))'
       }
     }
   );

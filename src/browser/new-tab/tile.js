@@ -4,8 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {always, batch, merge, take, tag, tagged, move} from "../../common/prelude"
-import {Effects, html, thunk, forward} from "reflex"
+import {html} from "reflex"
 import {Style, StyleSheet} from "../../common/style";
 
 export const init =
@@ -41,7 +40,8 @@ const styleSheet = StyleSheet.create
       , width: '160px'
       }
     , title:
-      { fontSize: '14px'
+      { color: 'rgba(0,0,0,0.8)'
+      , fontSize: '14px'
       , fontWeight: 'medium'
       , lineHeight: '20px'
       , overflow: 'hidden'
