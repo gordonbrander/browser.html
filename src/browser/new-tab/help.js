@@ -12,15 +12,12 @@ const styleSheet = StyleSheet.create
   ( { base:
       { cursor: 'pointer'
       , display: 'block'
-      , backgroundColor: '#eee'
-      , borderRadius: '12px'
-      , color: '#777'
+      , color: '#999'
       , fontSize: '12px'
       , lineHeight: '20px'
-      , padding: '5px 15px'
       , position: 'absolute'
       , bottom: '10px'
-      , right: '10px'
+      , right: '15px'
       }
     }
   );
