@@ -46,7 +46,7 @@ export const view = (model, address, isDark) =>
         : styleSheet.textLight
         )
       )
-    , onClick: () => address(Open(ISSUES_URL))
+    , href: ISSUES_URL
     }
     // @TODO localize this string
   , [ 'File a Bug'
