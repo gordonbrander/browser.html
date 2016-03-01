@@ -762,7 +762,6 @@ const viewNewTab = (model, address) => {
       )
     }
   , [ viewFrameFull(model, address)
-    , Progress.view(model.progress, address)
     ]
   );
 }
