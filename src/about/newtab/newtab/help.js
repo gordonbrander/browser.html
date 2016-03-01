@@ -6,6 +6,7 @@
 
 import {html} from "reflex"
 import {Style, StyleSheet} from "../../../common/style";
+import * as Config from '../../../../browserhtml.json';
 
 // Open a tile as webview
 const Open = uri =>
@@ -34,8 +35,6 @@ const styleSheet = StyleSheet.create
     }
   );
 
-const ISSUES_URL = 'https://github.com/servo/servo/issues/new';
-
 export const view = (model, address, isDark) =>
   html.a
   ( { className: 'help'
@@ -46,7 +45,7 @@ export const view = (model, address, isDark) =>
         : styleSheet.textLight
         )
       )
-    , href: ISSUES_URL
+    , href: Config.issues_url
     }
     // @TODO localize this string
   , [ 'File a Bug'

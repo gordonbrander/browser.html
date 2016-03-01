@@ -1,3 +1,4 @@
 { "logging": false
 , "devtools": false
+, "issues_url": "https://github.com/servo/servo/issues/new"
 }
