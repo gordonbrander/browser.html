@@ -6,6 +6,7 @@
 
 
 import {version} from "../../package.json";
+import * as Config from "../../browserhtml.json";
 import {Effects, html, forward, thunk} from "reflex";
 
 import * as Shell from "./shell";
@@ -36,7 +37,7 @@ import {onWindow} from "driver";
 /*:: import * as type from "../../type/browser/browser" */
 
 export const init/*:type.init*/ = () => {
-  const [devtools, devtoolsFx] = Devtools.init();
+  const [devtools, devtoolsFx] = Devtools.init({isActive: Config.devtools});
   const [updater, updaterFx] = Updater.init();
   const [input, inputFx] = Input.init(false, false, "");
   const [shell, shellFx] = Shell.init();
@@ -583,9 +584,13 @@ const exitInput = model =>
 const attachSidebar = model =>
   batch
   ( update
-  , model
+  , merge(model, {mode: 'show-web-view'})
   , [ DockSidebar
     , Shrink
+    , CloseSidebar
+    , HideOverlay
+    , FoldWebViews
+    , FocusWebView
     ]
   );
 
@@ -647,7 +652,7 @@ const expanded = endResizeAnimation;
 const updateResizeAnimation = (model, action) => {
   const [resizeAnimation, fx] =
     Stopwatch.update(model.resizeAnimation, action);
-  const duration = 300;
+  const duration = 200;
 
   const [begin, end] =
     ( model.isExpanded

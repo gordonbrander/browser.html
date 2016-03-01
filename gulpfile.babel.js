@@ -8,6 +8,7 @@ import uglify from 'gulp-uglify';
 import sourcemaps from 'gulp-sourcemaps';
 import gutil from 'gulp-util';
 import watchify from 'watchify';
+import watch from 'gulp-watch';
 import child from 'child_process';
 import http from 'http';
 import path from 'path';
@@ -17,6 +18,8 @@ import ecstatic from 'ecstatic';
 import hmr from 'browserify-hmr';
 import hotify from 'hotify';
 var fs = require('fs');
+
+var dist = gutil.env.dist || "./dist/";
 
 var settings = {
   port: process.env.BROWSER_HTML_PORT ||
@@ -94,7 +97,7 @@ Bundler.prototype.build = function() {
                     error.message);
     })
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest(dist))
     .on('end', () => {
       gutil.log(`Completed bundling: '${this.entry}'`);
     });
@@ -109,7 +112,7 @@ var bundler = function(entry) {
 // Starts a static http server that serves browser.html directory.
 gulp.task('server', function() {
   var server = http.createServer(ecstatic({
-    root: path.join(module.filename, '../'),
+    root: dist,
     cache: 0
   }));
   server.listen(settings.port);
@@ -213,6 +216,28 @@ gulp.task('hotreload', function() {
   settings.transform.push(hotify);
 });
 
+function copy_files(src, dst) {
+  var s = gulp.src(src);
+  if (settings.watch) {
+    s = s.pipe(watch(src));
+  }
+  s.pipe(gulp.dest(dst));
+}
+
+gulp.task('copydist', function() {
+  copy_files('./index.html', dist);
+  copy_files('./tiles.json', dist);
+  copy_files('./wallpaper.json', dist);
+
+  copy_files('./src/about/newtab/index.html', path.join(dist, "about/newtab/"));
+  copy_files('./src/about/repl/index.html', path.join(dist, "about/repl/"));
+  copy_files('./src/about/settings/index.html', path.join(dist, "about/settings/"));
+
+  copy_files('./css/*', path.join(dist, "css/"));
+  copy_files('./wallpaper/*', path.join(dist, "wallpaper/"));
+  copy_files('./tiles/*', path.join(dist, "tiles/"));
+});
+
 bundler('browser/index');
 bundler('service/history-worker');
 bundler('about/settings/main');
@@ -224,7 +249,9 @@ gulp.task('build', [
   'browser/index',
   // 'service/history-worker',
   'about/settings/main',
-  'about/repl/main'
+  'about/repl/main',
+  'about/newtab/main',
+  'copydist'
 ]);
 
 gulp.task('watch', [
@@ -233,7 +260,8 @@ gulp.task('watch', [
   // 'service/history-worker',
   'about/settings/main',
   'about/repl/main',
-  'about/newtab/main'
+  'about/newtab/main',
+  'copydist'
 ]);
 
 gulp.task('develop', sequencial('watch', 'server', 'gecko'));
