@@ -74,7 +74,7 @@ const readSearchURL = input =>
 
 const readAboutURL = input =>
   input === 'about:blank' ? input :
-  `${getBaseURI()}src/about/${input.replace('about:', '')}/index.html`;
+  `${getBaseURI()}/about/${input.replace('about:', '')}/index.html`;
 
 export const read = input =>
   isNotURL(input) ? readSearchURL(input) :
