@@ -386,6 +386,7 @@ export const FocusInput = InputAction(Input.Focus);
 
 const OpenAssistant = AssistantAction(Assistant.Open);
 const CloseAssistant = AssistantAction(Assistant.Close);
+const OpenAssistantResults = AssistantAction(Assistant.OpenResults);
 const QueryAssistant = compose(AssistantAction, Assistant.Query);
 
 const OpenSidebar = SidebarAction(Sidebar.Open);
@@ -479,9 +480,7 @@ const createWebView = model =>
         }
       )
     , ShowInput
-    // @TODO need to introduce action for integrated assistant that doesn't
-    // show up until there are results. Will take the place of ExpandAssistant.
-    , OpenAssistant
+    , OpenAssistantResults
     , CloseSidebar
     , HideOverlay
     , FoldWebViews
@@ -859,7 +858,8 @@ export const view/*:type.view*/ = (model, address) =>
           ( 'overlay'
           , Overlay.view
           , model.overlay
-          , forward(address, OverlayAction))
+          , forward(address, OverlayAction)
+          )
         , thunk
           ( 'assistant'
           , Assistant.view

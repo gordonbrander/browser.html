@@ -206,10 +206,6 @@ const styleSheet = StyleSheet.create
       { display: 'none'
       }
 
-    , openResults:
-      { height: '100%'
-      }
-
     , results:
       { listStyle: 'none'
       , margin: '90px auto 40px'
@@ -227,7 +223,7 @@ export const view/*:type.view*/ = (model, address) =>
       , ( model.mode === 'open'
         ? styleSheet.open
         : model.mode === 'open-results' && hasResults(model)
-        ? styleSheet.openResults
+        ? styleSheet.open
         : styleSheet.closed
         )
       )
