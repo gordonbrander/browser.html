@@ -15,6 +15,7 @@ import * as WebView from "../browser/web-view";
 import * as Unknown from "../common/unknown";
 import * as Stopwatch from "../common/stopwatch";
 import * as Easing from "eased";
+import * as URI from '../common/url-helper';
 import {Style, StyleSheet} from "../common/style";
 
 
@@ -106,6 +107,15 @@ const Activated/*:type.Activated*/ = id =>
     }
   );
 
+export const EnteringNewTab =
+  ( { type: 'EnteringNewTab'
+    }
+  );
+
+export const LeavingNewTab =
+  ( { type: 'LeavingNewTab'
+    }
+  );
 
 // ### Switch mode
 
@@ -214,10 +224,27 @@ const updateByID = (model, id, action) => {
     );
   }
   else {
+    // @TODO determine if we're showing new tab or transitioning from new tab to
+    // website, or transitioning from website to new tab. Send actions.
     const [entry, fx] = WebView.update(model.entries[id], action);
     return (
       [ merge(model, {entries: merge(model.entries, {[id]: entry})})
-      , fx.map(ByID(id))
+      , ( ( action.type === 'LocationChanged'
+          && URI.read(action.uri) === URI.read('about:newtab')
+          )
+        ? Effects.batch
+          ( [ fx.map(ByID(id))
+            , Effects.receive(EnteringNewTab)
+            ]
+          )
+        : action.type === 'LocationChanged'
+        ? Effects.batch
+          ( [ fx.map(ByID(id))
+            , Effects.receive(LeavingNewTab)
+            ]
+          )
+        : fx.map(ByID(id))
+        )
       ]
     );
   }
