@@ -25,6 +25,7 @@ const styleSheet = StyleSheet.create
       , position: 'absolute'
       , bottom: '10px'
       , right: '15px'
+      , textDecoration: 'none'
       }
     , textLight:
       { color: 'rgba(0,0,0,0.8)'
