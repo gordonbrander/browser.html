@@ -476,13 +476,6 @@ const changeLocation = (model, uri) =>
   , model
   , [ NavigationAction(Navigation.LocationChanged(uri))
     , PageAction(Page.LocationChanged(uri))
-    // @TODO we fake the metachanged event if the page is about:newtab. This
-    // is because Gecko and Servo whitelist metachange events, and this one
-    // isn't on the whitelist yet.
-    , ( URI.read(uri) === URI.read('about:newtab')
-      ? PageAction(Page.MetaChanged('browserhtml-input', 'overlay'))
-      : PageAction(Page.MetaChanged('browserhtml-input', null))
-      )
     ]
   );
 
@@ -760,7 +753,7 @@ const FrameView = (style) => (model, address) =>
 const viewFrame = FrameView(styleSheet.iframe);
 const viewFrameFull = FrameView(Style(styleSheet.iframe, styleSheet.iframeFull));
 
-const viewWebViewFull = (model, address) => {
+const viewWebViewOverlay = (model, address) => {
   const isModelDark = isDark(model);
   return html.div
   ( { className:
@@ -888,11 +881,11 @@ const viewWebView = (model, address) => {
   );
 };
 
-const isFull = model => model.page.inputMode === 'overlay';
+const isPageModeOverlay = model => model.page.pageMode === 'overlay';
 
 export const view/*:type.view*/ = (model, address) =>
-  ( isFull(model)
-  ? viewWebViewFull(model, address)
+  ( isPageModeOverlay(model)
+  ? viewWebViewOverlay(model, address)
   : viewWebView(model, address)
   );
 
