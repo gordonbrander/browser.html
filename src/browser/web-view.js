@@ -474,9 +474,18 @@ const changeLocation = (model, uri) =>
   batch
   ( update
   , model
-  , [ NavigationAction(Navigation.LocationChanged(uri))
-    , PageAction(Page.LocationChanged(uri))
-    ]
+  , ( URI.read(uri) === URI.read('about:newtab')
+    ? [ NavigationAction(Navigation.LocationChanged(uri))
+      , PageAction(Page.LocationChanged(uri))
+      // @TODO we fake the metachanged event if the page is about:newtab. This
+      // is because Gecko and Servo whitelist metachange events, and this one
+      // isn't on the whitelist yet.
+      , PageAction(Page.MetaChanged('browserhtml-input', 'overlay'))
+      ]
+    : [ NavigationAction(Navigation.LocationChanged(uri))
+      , PageAction(Page.LocationChanged(uri))
+      ]
+    )
   );
 
 const close = model =>
@@ -596,6 +605,11 @@ const styleSheet = StyleSheet.create({
     MozWindowDragging: 'no-drag'
   },
 
+  iframeFull: {
+    top: 0,
+    height: '100%',
+  },
+
   topbar: {
     backgroundColor: 'white', // dynamic
     position: 'absolute',
@@ -697,7 +711,7 @@ const styleSheet = StyleSheet.create({
   iconCreateTabBright: null
 });
 
-const viewFrame = (model, address) =>
+const FrameView = (style) => (model, address) =>
   html.iframe({
     id: `web-view-${model.id}`,
     src: model.navigation.initiatedURI,
@@ -705,7 +719,7 @@ const viewFrame = (model, address) =>
     'data-name': model.name,
     'data-features': model.features,
     element: Driver.element,
-    style: styleSheet.iframe,
+    style,
     attributes: {
       mozbrowser: true,
       remote: true,
@@ -745,7 +759,34 @@ const viewFrame = (model, address) =>
     onMozBrowserScrollAreaChanged: on(address, decodeScrollAreaChange),
   });
 
-export const view/*:type.view*/ = (model, address) => {
+const viewFrame = FrameView(styleSheet.iframe);
+const viewFrameFull = FrameView(Style(styleSheet.iframe, styleSheet.iframeFull));
+
+const viewWebViewFull = (model, address) => {
+  const isModelDark = isDark(model);
+  return html.div
+  ( { className:
+      ( isModelDark
+      ? `webview webview-is-dark web-view-${model.id}`
+      : `webview web-view-${model.id}`
+      )
+    , style: Style
+      ( styleSheet.webview
+      , ( model.isActive
+        ? styleSheet.webviewActive
+        : model.isSelected
+        ? styleSheet.webviewSelected
+        : styleSheet.webviewInactive
+        )
+      , model.display
+      )
+    }
+  , [ viewFrameFull(model, address)
+    ]
+  );
+}
+
+const viewWebView = (model, address) => {
   const isModelDark = isDark(model);
   return html.div
   ( { className:
@@ -848,6 +889,14 @@ export const view/*:type.view*/ = (model, address) => {
     ]
   );
 };
+
+const isFull = model => model.page.inputMode === 'overlay';
+
+export const view/*:type.view*/ = (model, address) =>
+  ( isFull(model)
+  ? viewWebViewFull(model, address)
+  : viewWebView(model, address)
+  );
 
 
 const decodeClose = always(Close);
