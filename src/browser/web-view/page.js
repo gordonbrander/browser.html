@@ -70,6 +70,8 @@ const updateIcon = (model, {icon}) => {
 const updateMeta = (model, {name, content}) =>
   [ ( name === 'theme-color'
     ? merge(model, {themeColor: content})
+    : name === 'browserhtml-input'
+    ? merge(model, {inputMode: content})
     : model
     )
   , Effects.none
@@ -103,6 +105,8 @@ export const init/*:type.init*/ = uri =>
     , curatedColor: null
 
     , pallet: Pallet.blank
+
+    , inputMode: null
     }
   , Effects.none
   ];
