@@ -474,18 +474,16 @@ const changeLocation = (model, uri) =>
   batch
   ( update
   , model
-  , ( URI.read(uri) === URI.read('about:newtab')
-    ? [ NavigationAction(Navigation.LocationChanged(uri))
-      , PageAction(Page.LocationChanged(uri))
-      // @TODO we fake the metachanged event if the page is about:newtab. This
-      // is because Gecko and Servo whitelist metachange events, and this one
-      // isn't on the whitelist yet.
-      , PageAction(Page.MetaChanged('browserhtml-input', 'overlay'))
-      ]
-    : [ NavigationAction(Navigation.LocationChanged(uri))
-      , PageAction(Page.LocationChanged(uri))
-      ]
-    )
+  , [ NavigationAction(Navigation.LocationChanged(uri))
+    , PageAction(Page.LocationChanged(uri))
+    // @TODO we fake the metachanged event if the page is about:newtab. This
+    // is because Gecko and Servo whitelist metachange events, and this one
+    // isn't on the whitelist yet.
+    , ( URI.read(uri) === URI.read('about:newtab')
+      ? PageAction(Page.MetaChanged('browserhtml-input', 'overlay'))
+      : PageAction(Page.MetaChanged('browserhtml-input', null))
+      )
+    ]
   );
 
 const close = model =>
