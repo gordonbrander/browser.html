@@ -112,11 +112,6 @@ const IntegrateWebView = id =>
     }
   );
 
-const IntegrateActiveWebView =
-  ( { type: 'IntegrateActiveWebView'
-    }
-  );
-
 // ### Switch mode
 
 export const Fold/*:type.Fold*/ = {type: "Fold"};
@@ -460,7 +455,7 @@ const selectByID = (model, id) =>
 const integrateWebView = (model, id) =>
   ( model.selector && model.selector.active === id
   ? [ model
-    , Effects.receive(IntegrateActiveWebView)
+    , Effects.receive(Create)
     ]
   : [ model
     , Effects.none

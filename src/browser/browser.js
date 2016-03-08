@@ -140,8 +140,6 @@ const WebViewsAction = action =>
   ? { type: "ActivateTabByID"
     , source: action
     }
-  : action.type === 'IntegrateActiveWebView'
-  ? CreateWebView
   : { type: 'WebViews'
     , source: action
     }
