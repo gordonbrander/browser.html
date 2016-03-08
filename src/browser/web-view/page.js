@@ -50,6 +50,11 @@ export const LoadEnd/*:type.LoadEnd*/ =
 export const LocationChanged/*:type.LocationChanged*/ = uri =>
   ({type: "LocationChanged", uri});
 
+export const Integrate =
+  ( { type: 'Integrate'
+    }
+  );
+
 const decodeMetaChange = ({detail: {name, content}}) =>
   MetaChanged(name, content);
 
@@ -58,7 +63,7 @@ const requestPageModeMeta = uri =>
     ( URI.read(uri) === URI.read('about:newtab')
     ? resolve({ detail:
         { name: 'browserhtml-page-mode'
-        , content: 'overlay'
+        , content: 'integrated'
         }
       })
     : null
@@ -83,14 +88,12 @@ const updateIcon = (model, {icon}) => {
 };
 
 const updateMeta = (model, {name, content}) =>
-  [ ( name === 'theme-color'
-    ? merge(model, {themeColor: content})
-    : name === 'browserhtml-page-mode'
-    ? merge(model, {pageMode: content})
-    : model
-    )
-  , Effects.none
-  ];
+  ( name === 'theme-color'
+  ? [ merge(model, {themeColor: content}), Effects.none ]
+  : name === 'browserhtml-page-mode' && content === 'integrated'
+  ? [ merge(model, {pageMode: content}), Effects.receive(Integrate) ]
+  : model
+  );
 
 const updatePallet = (model, _) =>
   [ merge

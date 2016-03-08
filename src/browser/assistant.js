@@ -18,7 +18,7 @@ import * as Unknown from '../common/unknown';
 
 export const Open = tagged("Open");
 export const Close = tagged("Close");
-export const Assimilate = tagged('Assimilate');
+export const Integrate = tagged('Integrate');
 export const Unselect = tagged("Unselect");
 export const Reset = tagged("Reset");
 export const SuggestNext = tagged("SuggestNext");
@@ -44,7 +44,7 @@ const ClosedMode = 'closed';
 const OpenedMode = 'opened';
 
 // Open if there are results
-const AssimilatedMode = 'assimilated'
+const IntegratedMode = 'integrated'
 
 export const init =
   () =>
@@ -83,11 +83,11 @@ const clear =
     return result
   }
 
-const assimilate =
+const integrate =
   model =>
   [ merge
     ( model
-    , { mode: AssimilatedMode
+    , { mode: IntegratedMode
       }
     )
   , Effects.none
@@ -171,8 +171,8 @@ export const update/*:type.update*/ =
   ? open(model)
   : action.type === "Close"
   ? close(model)
-  : action.type === "Assimilate"
-  ? assimilate(model)
+  : action.type === "Integrate"
+  ? integrate(model)
   : action.type === "Reset"
   ? reset(model)
   : action.type === "Unselect"

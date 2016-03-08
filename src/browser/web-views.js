@@ -106,16 +106,14 @@ const Activated/*:type.Activated*/ = id =>
     }
   );
 
-const ModeChanged = (id, {mode}) =>
-  ( { type: 'ModeChanged'
+const IntegrateWebView = id =>
+  ( { type: 'IntegrateWebView'
     , id
-    , mode
     }
   );
 
-const ActiveModeChanged = (mode) =>
-  ( { type: 'ActiveModeChanged'
-    , mode
+const IntegrateActiveWebView =
+  ( { type: 'IntegrateActiveWebView'
     }
   );
 
@@ -152,8 +150,8 @@ const WebViewAction = (id, action) =>
   ? Create
   : action.type === "Edit"
   ? Edit
-  : action.type === 'ModeChanged'
-  ? ModeChanged(id, action)
+  : action.type === 'IntegrateWebView'
+  ? IntegrateWebView(id)
   : { type: "WebView"
     , id
     , action
@@ -459,10 +457,10 @@ const selectByID = (model, id) =>
   : [ model, Effects.none ]
   );
 
-const changeMode = (model, id, mode) =>
+const integrateWebView = (model, id) =>
   ( model.selector && model.selector.active === id
   ? [ model
-    , Effects.receive(ActiveModeChanged(mode))
+    , Effects.receive(IntegrateActiveWebView)
     ]
   : [ model
     , Effects.none
@@ -602,8 +600,8 @@ export const update/*:type.update*/ = (model, action) =>
   : action.type === "Selected"
   ? [ model, Effects.none ]
 
-  : action.type === 'ModeChanged'
-  ? changeMode(model, action.id, action.mode)
+  : action.type === 'IntegrateWebView'
+  ? integrateWebView(model, action.id)
 
   // Fold / Unfold animations
   : action.type === "Fold"

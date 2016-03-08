@@ -158,12 +158,15 @@ const SecurityChanged =
   , Security.Changed
   );
 
-const ModeChanged = mode =>
-  ({type: 'ModeChanged', mode});
+
+export const IntegrateWebView =
+  ( { type: 'IntegrateWebView'
+    }
+  );
 
 const PageAction = action =>
-  ( action.type === 'MetaChanged' && action.name === 'browserhtml-page-mode'
-  ? ModeChanged(action.content)
+  ( action.type === 'Integrate'
+  ? IntegrateWebView
   : {type: "Page", action}
   );
 
@@ -248,18 +251,7 @@ const updatePage = cursor
   ( { get: model => model.page
     , set: (model, page) => merge(model, {page})
     , tag: PageAction
-    , update: (model, action) =>
-        Page.update
-        ( model
-        , ( action.type === "LoadStart"
-          ? Page.LoadStart
-          : action.type === "LoadEnd"
-          ? Page.LoadEnd
-          // : action.type === "ModeChanged"
-          // ? Page.MetaChanged('browserhtml-page-mode', mode)
-          : action
-          )
-        )
+    , update: Page.update
     }
   );
 
@@ -489,6 +481,9 @@ const changeLocation = (model, uri) =>
 const close = model =>
   [ model, Effects.receive(Closed) ];
 
+const changeMode = (model, action) =>
+  update(model, PageAction(action.action));
+
 export const update/*:type.update*/ = (model, action) =>
   ( action.type === "Select"
   ? select(model)
@@ -530,6 +525,10 @@ export const update/*:type.update*/ = (model, action) =>
 
   : action.type === "Close"
   ? close(model)
+
+  : action.type === "ModeChanged"
+  ? changeMode(model, action)
+
 
   // Shell Requests
   : action.type === "ZoomIn"
@@ -888,7 +887,7 @@ const viewWebView = (model, address) => {
   );
 };
 
-const isModeOverlay = model => model.page.pageMode === 'overlay';
+const isModeOverlay = model => model.page.pageMode === 'integrated';
 
 export const view/*:type.view*/ = (model, address) =>
   ( isModeOverlay(model)
