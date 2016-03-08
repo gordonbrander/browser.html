@@ -18,7 +18,7 @@ import * as Unknown from '../common/unknown';
 
 export const Open = tagged("Open");
 export const Close = tagged("Close");
-export const Expand = tagged("Expand");
+export const Assimilate = tagged('Assimilate');
 export const Unselect = tagged("Unselect");
 export const Reset = tagged("Reset");
 export const SuggestNext = tagged("SuggestNext");
@@ -27,7 +27,6 @@ export const Suggest = tag("Suggest");
 export const Query = tag("Query");
 export const Execute = tag("Execute");
 export const Activate = tag("Activate");
-
 
 const SearchAction =
   action =>
@@ -38,11 +37,19 @@ const SearchAction =
 
 const HistoryAction = tag("History");
 
+// Closed always
+const ClosedMode = 'closed';
+
+// Open always
+const OpenedMode = 'opened';
+
+// Open if there are results
+const AssimilatedMode = 'assimilated'
+
 export const init =
   () =>
   clear
-  ( { isOpen: false
-    , isExpanded: false
+  ( { mode: ClosedMode
     }
   )
 
@@ -76,12 +83,11 @@ const clear =
     return result
   }
 
-const expand =
+const assimilate =
   model =>
   [ merge
     ( model
-    , { isOpen: true
-      , isExpanded: true
+    , { mode: AssimilatedMode
       }
     )
   , Effects.none
@@ -91,8 +97,7 @@ const open =
   model =>
   [ merge
     ( model
-    , { isOpen: true
-      , isExpanded: false
+    , { mode: OpenedMode
       }
     )
   , Effects.none
@@ -103,8 +108,7 @@ const close =
   clear
   ( merge
     ( model
-    , { isOpen: false
-      , isExpanded: false
+    , { mode: ClosedMode
       }
     )
   );
@@ -167,8 +171,8 @@ export const update/*:type.update*/ =
   ? open(model)
   : action.type === "Close"
   ? close(model)
-  : action.type === "Expand"
-  ? expand(model)
+  : action.type === "Assimilate"
+  ? assimilate(model)
   : action.type === "Reset"
   ? reset(model)
   : action.type === "Unselect"
@@ -225,11 +229,7 @@ export const view/*:type.view*/ = (model, address) =>
   ( { className: 'assistant'
     , style: Style
       ( styleSheet.base
-      , ( model.isExpanded
-        ? styleSheet.expanded
-        : styleSheet.shrinked
-        )
-      , ( model.isOpen
+      , ( model.mode === OpenedMode
         ? styleSheet.open
         : styleSheet.closed
         )
