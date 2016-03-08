@@ -140,6 +140,8 @@ const WebViewsAction = action =>
   ? { type: "ActivateTabByID"
     , source: action
     }
+  : action.type === 'ActiveModeChanged'
+  ? WebViewModeChanged(action.mode)
   : { type: 'WebViews'
     , source: action
     }
@@ -297,6 +299,12 @@ export const BlurInput =
   { type: 'BlurInput'
   , source: Input.Blur
   };
+
+export const WebViewModeChanged = (mode) =>
+  ( { type: 'WebViewModeChanged'
+    , mode
+    }
+  );
 
 // ## Resize actions
 

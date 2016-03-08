@@ -158,9 +158,14 @@ const SecurityChanged =
   , Security.Changed
   );
 
+const ModeChanged = mode =>
+  ({type: 'ModeChanged', mode});
 
 const PageAction = action =>
-  ({type: "Page", action});
+  ( action.type === 'MetaChanged' && action.name === 'browserhtml-page-mode'
+  ? ModeChanged(action.content)
+  : {type: "Page", action}
+  );
 
 const FirstPaint = PageAction(Page.FirstPaint);
 const DocumentFirstPaint = PageAction(Page.DocumentFirstPaint);
@@ -250,6 +255,8 @@ const updatePage = cursor
           ? Page.LoadStart
           : action.type === "LoadEnd"
           ? Page.LoadEnd
+          // : action.type === "ModeChanged"
+          // ? Page.MetaChanged('browserhtml-page-mode', mode)
           : action
           )
         )
@@ -881,10 +888,10 @@ const viewWebView = (model, address) => {
   );
 };
 
-const isPageModeOverlay = model => model.page.pageMode === 'overlay';
+const isModeOverlay = model => model.page.pageMode === 'overlay';
 
 export const view/*:type.view*/ = (model, address) =>
-  ( isPageModeOverlay(model)
+  ( isModeOverlay(model)
   ? viewWebViewOverlay(model, address)
   : viewWebView(model, address)
   );

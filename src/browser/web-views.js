@@ -106,6 +106,18 @@ const Activated/*:type.Activated*/ = id =>
     }
   );
 
+const ModeChanged = (id, {mode}) =>
+  ( { type: 'ModeChanged'
+    , id
+    , mode
+    }
+  );
+
+const ActiveModeChanged = (mode) =>
+  ( { type: 'ActiveModeChanged'
+    , mode
+    }
+  );
 
 // ### Switch mode
 
@@ -140,6 +152,8 @@ const WebViewAction = (id, action) =>
   ? Create
   : action.type === "Edit"
   ? Edit
+  : action.type === 'ModeChanged'
+  ? ModeChanged(id, action)
   : { type: "WebView"
     , id
     , action
@@ -445,6 +459,16 @@ const selectByID = (model, id) =>
   : [ model, Effects.none ]
   );
 
+const changeMode = (model, id, mode) =>
+  ( model.selector && model.selector.active === id
+  ? [ model
+    , Effects.receive(ActiveModeChanged(mode))
+    ]
+  : [ model
+    , Effects.none
+    ]
+  );
+
 // Animations
 
 const fold = model =>
@@ -578,6 +602,8 @@ export const update/*:type.update*/ = (model, action) =>
   : action.type === "Selected"
   ? [ model, Effects.none ]
 
+  : action.type === 'ModeChanged'
+  ? changeMode(model, action.id, action.mode)
 
   // Fold / Unfold animations
   : action.type === "Fold"
