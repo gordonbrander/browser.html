@@ -141,7 +141,7 @@ const WebViewsAction = action =>
     , source: action
     }
   : action.type === 'ActiveModeChanged'
-  ? WebViewModeChanged(action.mode)
+  ? WebViewsModeChanged(action.mode)
   : { type: 'WebViews'
     , source: action
     }
@@ -300,8 +300,8 @@ export const BlurInput =
   , source: Input.Blur
   };
 
-export const WebViewModeChanged = (mode) =>
-  ( { type: 'WebViewModeChanged'
+export const WebViewsModeChanged = (mode) =>
+  ( { type: 'WebViewsModeChanged'
     , mode
     }
   );
