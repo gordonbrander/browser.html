@@ -204,6 +204,19 @@ export const init/*:type.init*/ = () =>
   , Effects.none
   ];
 
+export const initWithWebView = options => {
+  const [model, fx] = init();
+  const [next, nextFx] = open(model, options, false);
+  return (
+    [ next
+    , Effects.batch
+      ( [ fx
+        , nextFx
+        ]
+      )
+    ]
+  );
+}
 
 const updateByID = (model, id, action) => {
   if ( model.order.indexOf(id) < 0) {
