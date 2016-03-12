@@ -117,7 +117,7 @@ export const Unfolded/*:type.Unfolded*/ = {type: "Unfolded"};
 // ### Tag WebView Action
 
 // Anotates `action` to target Active WebView
-const ActiveWebViewAction = action =>
+export const ActiveWebViewAction = action =>
   ( { type: "ActiveWebView"
     , action
     }
@@ -614,16 +614,23 @@ export const update/*:type.update*/ = (model, action) =>
   : Unknown.update(model, action)
   );
 
-
-
-export const getActiveURI/*:type.getActiveURI*/ = (model, fallback=null) =>
+export const getActive = (model, fallback = null) =>
   ( model.selector == null
   ? fallback
   : model.entries[model.selector.active] == null
   ? fallback
-  : model.entries[model.selector.active].navigation.currentURI
-  )
+  : model.entries[model.selector.active]
+  );
 
+export const getActiveURI/*:type.getActiveURI*/ = (model, fallback=null) => {
+  const active = getActive(model);
+  return (
+    ( active == null
+    ? fallback
+    : active.navigation.currentURI
+    )
+  );
+};
 
 const styleSheet = StyleSheet.create({
   base: {
