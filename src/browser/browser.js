@@ -38,14 +38,7 @@ import {onWindow} from "driver";
 export const init/*:type.init*/ = () => {
   const [devtools, devtoolsFx] = Devtools.init({isActive: Config.devtools});
   const [shell, shellFx] = Shell.init();
-  const [webViews, webViewsFx] = WebViews.initWithWebView
-    // @TODO in future we should read about:newtab closer to the iframe
-    ( { uri: URI.read('about:newtab')
-      , name: ''
-      , features: ''
-      , inBackground: false
-      }
-    );
+  const [webViews, webViewsFx] = WebViews.init();
   const [sidebar, sidebarFx] = Sidebar.init();
 
   const model =
