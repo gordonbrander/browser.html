@@ -92,11 +92,9 @@ export const Push = force =>
   );
 
 // This action is sent up as effect to WebViews.
-export const Pushed = force =>
-  ( { type: 'Pushed'
-    , force
-    }
-  );
+export const Pushed =
+  { type: 'Pushed'
+  };
 
 export const Load/*:type.Load*/ = uri =>
   ( { type: 'Load'
@@ -494,7 +492,10 @@ const changeLocation = (model, uri) =>
   );
 
 const push = (model, force) =>
-  [ model, Effects.receive(Pushed(force)) ];
+  ( force > 1.8
+  ? [ model, Effects.receive(Pushed) ]
+  : [ model, Effects.none ]
+  );
 
 const close = model =>
   [ model, Effects.receive(Closed) ];
@@ -943,4 +944,4 @@ const decodeSecurityChange =
 
 const decodeForceChanged =
   ({webkitForce}) =>
-  Push(webkitForce < 1 ? 0 : (webkitForce - 1));
+  Push(webkitForce);

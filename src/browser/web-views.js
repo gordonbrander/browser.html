@@ -449,27 +449,12 @@ const selectByID = (model, id) =>
 
 // Animations
 
-const push = (model, force) =>
-  [ merge
-    ( model
-    , { display:
-          merge
-          ( model.display
-          , { depth:
-              Easing.ease
-              ( Easing.easeOutCubic
-              , Easing.float
-              , 0
-              , -200
-              , 1
-              , force
-              )
-            }
-          )
-      }
-    )
-  , Effects.none
-  ];
+const push = (model) =>
+  ( model.isFolded
+  // If model is folded, we should forward this action up a level.
+  ? [ model, Effects.receive(ShowTabs) ]
+  : [ model, Effects.none ]
+  );
 
 const fold = model =>
   ( model.isFolded
@@ -582,7 +567,7 @@ export const update/*:type.update*/ = (model, action) =>
   ? removeByID(model, action.id)
 
   : action.type === "Pushed"
-  ? push(model, action.force)
+  ? push(model)
 
   // Change activate web-view
   : action.type === "ActivateSelected"
