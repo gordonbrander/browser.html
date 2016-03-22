@@ -745,7 +745,7 @@ const viewFrame = (model, address) =>
     onBlur: on(address, always(BlurShell)),
     onFocus: on(address, always(FocusShell)),
     // onMozbrowserAsyncScroll: on(address, decodeAsyncScroll),
-    onWebKitMouseForceChanged: on(address, decodeForceChanged),
+    onServoMouseForceChanged: on(address, decodeForceChanged),
     onMozBrowserClose: on(address, always(Close)),
     onMozBrowserOpenWindow: on(address, decodeOpenWindow),
     onMozBrowserOpenTab: on(address, decodeOpenTab),
@@ -943,5 +943,5 @@ const decodeSecurityChange =
   SecurityChanged(state, extendedValidation);
 
 const decodeForceChanged =
-  ({webkitForce}) =>
-  Push(webkitForce);
+  ({servoForce}) =>
+  Push(servoForce);
